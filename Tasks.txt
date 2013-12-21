@@ -1,0 +1,32 @@
+Falling Rocks Tasks
+
+1. Add rocks of different sizes 
+2. Add rocks of different colours
+3. Add dwarfs of different sizes 
+4. Add dwarfs of differentcolours 
+5. Implement collision detection
+6. Add a simple menu that allows the player to:
+ - start a game
+ - see instructions about the game
+ - show the highest score the player has achieved in this session
+ - [BONUS]change settings (controls, graphics, audio
+ - exit the game
+p.s. the menu shall be the first thing a player sees and the player MUST have the option to return to the main menu at ANYTIME.
+7. Add falling power-ups(bonuses that help the player: 
+ - shrinking the dwarf 
+ - speeding him up
+8. Add levels to the game
+ - increasing the speed at which rocks fall
+ - decreasing the interval during which they spawn
+ - slowing down the player
+9. [BONUS]Implement an RPG-like skill system - have the dwarf gain abilities like:
+ - moving trough rocks
+ - gaining speed
+ - the ability to shoot down rocks
+  10.[BONUS]Implement an Audio system using either cout << '\a'; or the Windows function Beep (google it)
+  11.[BONUS]Implement save / load functionality. Use file streams (google them)
+
+
+ 	 
+
+
