@@ -1,7 +1,7 @@
 Falling Rocks Tasks
 
-1. Add rocks of different sizes 
-2. Add rocks of different colours
+1. Add rocks of different sizes Ичо
+2. Add rocks of different colours Ичо
 3. Add dwarfs of different sizes 
 4. Add dwarfs of differentcolours 
 5. Implement collision detection
