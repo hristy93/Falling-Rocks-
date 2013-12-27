@@ -2,21 +2,21 @@ Falling Rocks Tasks
 
 1. Add rocks of different sizes Ичо
 2. Add rocks of different colours Ичо
-3. Add dwarfs of different sizes 
-4. Add dwarfs of differentcolours 
-5. Implement collision detection
-6. Add a simple menu that allows the player to:
+3. Add dwarfs of different sizes Валя
+4. Add dwarfs of differentcolours Валя
+5. Implement collision detection Стан
+6. Add a simple menu that allows the player to: Стан
  - start a game
  - see instructions about the game
  - show the highest score the player has achieved in this session
- - [BONUS]change settings (controls, graphics, audio
+ - [BONUS]change settings (controls, graphics, audio  тази задача е за после
  - exit the game
 p.s. the menu shall be the first thing a player sees and the player MUST have the option to return to the main menu at
 ANYTIME.
-7. Add falling power-ups(bonuses that help the player: 
+7. Add falling power-ups(bonuses that help the player: Преско
  - shrinking the dwarf 
  - speeding him up
-8. Add levels to the game
+8. Add levels to the game Преско
  - increasing the speed at which rocks fall
  - decreasing the interval during which they spawn
  - slowing down the player
