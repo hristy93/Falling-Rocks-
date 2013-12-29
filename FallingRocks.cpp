@@ -70,10 +70,10 @@ void ShowMenu()
 	{
 		cout << "Choose an option:" << endl;
 		cout << "1 - Start a new game" << endl;
-		cout << "2 - Game intructions" << endl;
+		cout << "2 - Game instructions" << endl;
 		cout << "3 - Show your highest score" << endl;
 		cout << "4 - Exit the game" << endl;
-		cout << "You can always retun to this menu by pressing the M key" << endl;
+		cout << "You can always return to this menu by pressing the M key" << endl;
 	}
 	else
 	{
