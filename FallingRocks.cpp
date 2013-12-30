@@ -80,10 +80,10 @@ void ShowMenu()
 		cout << "Choose an option:" << endl;
 		cout << "1 - Resume the game" << endl;
 		cout << "2 - Start a new game" << endl;
-		cout << "3 - Game intructions" << endl;
+		cout << "3 - Game instructions" << endl;
 		cout << "4 - Show your highest score" << endl;
 		cout << "5 - Exit the game" << endl;
-		cout << "You can always retun to this menu by pressing the M key" << endl;
+		cout << "You can always return to this menu by pressing the M key" << endl;
 	}
 	cin >> choice;
 	switch (choice)
