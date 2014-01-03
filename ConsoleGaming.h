@@ -63,12 +63,10 @@ namespace ConsoleColors
 		Green = 0x2,
 		Red = 0x4,
 		Yellow = Red | Green,
-		Purple = Blue | Red,
+		Purple = Blue | Green,
 		Cyan = Blue | Green,
-		Smth = Yellow | Purple,
 		Black = 0,
-		White = Red | Green | Blue,
-		Grey = Black | White
+		White = Red | Green | Blue
 	};
 }
 
