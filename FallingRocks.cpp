@@ -270,7 +270,7 @@ void Draw()
 
         for (const_iterator rock = rocks.begin(); rock != rocks.end(); ++rock)
         {
-                rock->Draw(consoleHandle);
+                rock->Draw(consoleHandle); 
         }
        // Drawing the PowUps
          for(const_iterator powup = powups.begin();powup!=powups.end();++powup)
@@ -289,34 +289,78 @@ int main()
         int dwarfX = WindowWidth / 2;
 
         char dwarfSymbol = '*';
-
-        //  Dwarf shape 1
-        //  dwarf.push_back(GameObject(dwarfX - 1, dwarfY, dwarfSymbol));
-        //        dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol));
-        //        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol));
-        //        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol));
-        //        dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol));
-        //        dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol));
-        //        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol));
-
-        //  Dwarf shape 2
-        char dwarfSymbol1 = '#';
+        char dwarfSymbol1 = '0';
         char dwarfSymbol2 = '^';
-        dwarf.push_back(GameObject(dwarfX - 1, dwarfY, dwarfSymbol2));
-        dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol2));
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol1));
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol1));
-        dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol));
-        dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol));
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol));
+        char dwarfSymbol3 = '|';
+        char dwarfSymbol4 = '~';
+        char dwarfSymbol5 = '^^';
+        char dwarfSymbol6 = '#';
+        char dwarfSymbol7 = '/';
+        char dwarfSymbol8 = '-';
+        char dwarfSymbol9 = '\\';
+        //  Dwarf shape 1-Small
+        /*
+               dwarf.push_back(GameObject(dwarfX - 1, dwarfY, dwarfSymbol7));
+                dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol9));
+                dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol));
+                dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol));
+                dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol2));
+                dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol2));
+                dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol1));
 
-        //  The original shape ot the dwarf
-        //        dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 1, dwarfSymbol));
-        //        dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 1, dwarfSymbol));
-        //        dwarf.push_back(GameObject(dwarfX, dwarfY, dwarfSymbol));
-        //        dwarf.push_back(GameObject(dwarfX - 1, dwarfY + 1, dwarfSymbol));
-        //        dwarf.push_back(GameObject(dwarfX + 1, dwarfY + 1, dwarfSymbol));
+        //Shape 1-Big
+        
+        dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol7));//legs
+        dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol9));//legs
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol));//Body
+        dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol2));//hands
+        dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol2));//hands
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 4, dwarfSymbol1));//head
+        
+        // shape 2-Small
+     */
+       dwarf.push_back(GameObject(dwarfX -1, dwarfY, dwarfSymbol2));//legs
+        dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol2));//legs
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol4));//hands
+        dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol4));//hands
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol1));//head
+        
+        
+       /*   // shape 2-Big
+        dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol2));//legs
+        dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol2));//legs
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol4));//hands
+        dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol4));//hands
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 4, dwarfSymbol1));//head 
 
+
+        //Shape 3-small
+        dwarf.push_back(GameObject(dwarfX -1, dwarfY, dwarfSymbol7));//legs
+        dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol9));//legs
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol8));//hands
+        dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol8));//hands
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol6));//head
+        
+    
+        //Shape 3-Big
+        dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol7));//legs
+        dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol9));//legs
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol8));//hands
+        dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol8));//hands
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 4, dwarfSymbol6));//head  
+        */   
         ShowMenu();
         inGame = true;
         while (Stay)
@@ -333,3 +377,4 @@ int main()
 
         return 0;
 }
+
