@@ -25,6 +25,12 @@ int rockSpeed = 1;
 int dwarfSpeed = 5;
 int lastdwarfSpeed = 5;
 
+//Counts the number of the stones
+int stoneCounter = 0;
+
+//Color variable
+unsigned char colour = 0xF;
+
 // Game variables
 unsigned long sleepDuration = 200;
 
@@ -56,15 +62,14 @@ unsigned int rockSpawnInterval = 10;
 
 //void CheckCollision (int rockXCoord, int rockYCoord)
 //{
-//   bool Collided = false;
 //   for (randomAccess_iterator dwarfBody = dwarf.begin(); dwarfBody != dwarf.end(); ++dwarfBody)
 //   {
 //       if(dwarfBody->Coordinates.X == rockXCoord && dwarfBody->Coordinates.Y == rockYCoord)
 //       {
-//           Collided = true;
+//			Collision = true;
+//			break;
 //       }
 //   }
-//   Collision = Collided;
 //}
 
 void ShowMenu()
@@ -144,146 +149,157 @@ void ShowMenu()
 
 void Update()
 {
-        COORD direction = { 0, 0 };
-        if (kbhit())
-        {
-                char key = getch();
-                switch (key)
-                {
-                case 'a':
-                        direction.X = -dwarfSpeed;
-                        direction.Y = 0;
-                        break;
-                case 'w':
-                        direction.X = 0;
-                        direction.Y = -dwarfSpeed;
-                        break;
-                case 'd':
-                        direction.X = dwarfSpeed;
-                        direction.Y = 0;
-                        break;
-                case 's':
-                        direction.X = 0;
-                        direction.Y = dwarfSpeed;
-                        break;
-                case 'm':
-                        ShowMenu();
-                        break;
-                };
-        }
-        for (randomAccess_iterator dwarfBody = dwarf.begin(); dwarfBody != dwarf.end(); ++dwarfBody)
-        {
-                dwarfBody->Coordinates.X += direction.X;
-                dwarfBody->Coordinates.Y += direction.Y;
-                //dwarfBody->Color = Green;
-        }
+	COORD direction = { 0, 0 };
+	if (_kbhit())
+	{
+		char key = getch();
+		switch (key)
+		{
+		case 'a':
+			direction.X = -dwarfSpeed;
+			direction.Y = 0;
+			break;
+		case 'w':
+			direction.X = 0;
+			direction.Y = -dwarfSpeed;
+			break;
+		case 'd':
+			direction.X = dwarfSpeed;
+			direction.Y = 0;
+			break;
+		case 's':
+			direction.X = 0;
+			direction.Y = dwarfSpeed;
+			break;
+		case 'm':
+			ShowMenu();
+			break;
+		};
+	}
+	for (randomAccess_iterator dwarfBody = dwarf.begin(); dwarfBody != dwarf.end(); ++dwarfBody)
+	{
+		dwarfBody->Coordinates.X += direction.X;
+		dwarfBody->Coordinates.Y += direction.Y;
+		//dwarfBody->Color = Green;
+	}
 
-        // Update the position of all rocks. Remove any rock that goes outside the window
+	// Update the position of all rocks. Remove any rock that goes outside the window
 
-        for (randomAccess_iterator rock = rocks.begin(); rock != rocks.end(); /* Empty clause so we can delete elements */)
-        {
-                rock->Coordinates.Y += rockSpeed;
-                if (rock->Coordinates.Y > WindowHeight - 1)
-                {
-                        rock = rocks.erase(rock);
-                }
-                else
-                {
-                        ++rock;
-                }
-                // CheckCollision(rock->Coordinates.X,rock->Coordinates.Y);
-        }
+	for (randomAccess_iterator rock = rocks.begin(); rock != rocks.end(); /* Empty clause so we can delete elements */)
+	{
+		rock->Coordinates.Y += rockSpeed;
+		if (rock->Coordinates.Y > WindowHeight - 1)
+		{
+			rock = rocks.erase(rock);
+			//CheckCollision(rock->Coordinates.X, rock->Coordinates.Y);
+		}
+		else
+		{
+			++rock;
+			//CheckCollision((rock - 1)->Coordinates.X, (rock - 1)->Coordinates.Y);
+		}
+		
+	}
+
+	if (frameCounter % rockSpawnInterval == 0)
+	{
+		// Spawn a new rock at every x frames
+		int x = rand() % WindowWidth;
+		//		The original RockSymbol
+		//		rocks.push_back(GameObject(x, 0, RockSymbol));
+
+		//      Rocks in defferent shapes
+		int shapeNum = rand() % 7;
+		switch (shapeNum)
+		{
+			case 0: RockSymbol = static_cast<char>(177); break;
+			case 1: RockSymbol = static_cast<char>(176); break;
+			case 2: RockSymbol = static_cast<char>(219); break;
+			case 3: RockSymbol = static_cast<char>(220); break;
+			case 4: RockSymbol = static_cast<char>(222); break;
+			case 5: RockSymbol = static_cast<char>(178); break;
+			case 6: RockSymbol = static_cast<char>(254); break;
+		}
+		stoneCounter++;
+		GameObject go = GameObject(x, 0, RockSymbol);
+		rocks.push_back(go);
+		
+		if (stoneCounter == 2) rocks[0].Color = colour;
+
+		//It makes stones colorful
+
+		//[BUG] The first stone changes it's color after the second one appears - partly resolved
+		randomAccess_iterator rock = rocks.end() - 1;
+		switch (shapeNum)
+		{
+		case 0: rock->Color = Green; break;
+		case 1: rock->Color = Red; break;
+		case 2: rock->Color = Blue; break;
+		case 3: rock->Color = Grey; break;
+		case 4: rock->Color = Yellow; break;
+		case 5: rock->Color = Purple; break;
+		case 6: rock->Color = Cyan; break;
+		}
+		colour = rock->Color;
+
+		//rocks.push_back(GameObject(x, 0, RockSymbol));
+	}
 
 
-        if (frameCounter % rockSpawnInterval == 0)
-        {
-                // Spawn a new rock at every x frames
-                int x = rand() % WindowWidth;
-                //                The original RockSymbol
-                //                rocks.push_back(GameObject(x, 0, RockSymbol));
+	//  Creating Power Ups similar to the rock Object
+	for (randomAccess_iterator powup = powups.begin(); powup != powups.end(); /* Empty clause so we can delete elements */)
+	{
+		powup->Coordinates.Y += powupSpeed;
+		if (powup->Coordinates.Y > WindowHeight - 1)
+		{
+			powup = powups.erase(powup);
+		}
+		else
+		{
+			++powup;
+		}
+		// CheckCollision(rock->Coordinates.X,rock->Coordinates.Y);
+	}
+	if (frameCounter % 50 == 0 && frameCounter != 0)
+	{
+		// Spawn a new powup at every x frames
+		int x = rand() % WindowWidth;
+		if (frameCounter % 100 == 0)
+		{
+			powups.push_back(GameObject(x, 0, PowupSymbol1));
+			PowupSymbol = PowupSymbol1;
+		}
+		else
+		{
+			powups.push_back(GameObject(x, 0, PowupSymbol2));
+			PowupSymbol = PowupSymbol2;
+		}
 
-                rocks.push_back(GameObject(x, 0, RockSymbol));
-
-                //      Rocks in defferent shapes
-                int shapeNum = rand() % 7;
-                switch (shapeNum)
-                {
-                        case 1: RockSymbol = static_cast<char>(176); break;
-                        case 2: RockSymbol = static_cast<char>(219); break;
-                        case 3: RockSymbol = static_cast<char>(220); break;
-                        case 4: RockSymbol = static_cast<char>(222); break;
-                        case 5: RockSymbol = static_cast<char>(178); break;
-                        case 6: RockSymbol = static_cast<char>(254); break;
-                }
-
-                //Make stones colorful
-                randomAccess_iterator rock = rocks.end() - 1;
-                switch (shapeNum)
-                {
-                case 1: rock->Color = Red; break;
-                case 2: rock->Color = Blue; break;
-                case 3: rock->Color = White; break;
-                case 4: rock->Color = Yellow; break;
-                case 5: rock->Color = Purple; break;
-                case 6: rock->Color = Cyan; break;
-                }
-
-                //rocks.push_back(GameObject(x, 0, RockSymbol));
-        }
-
-              //  Creating Power Ups similar to the rock Object
-          for (randomAccess_iterator powup = powups.begin(); powup != powups.end(); /* Empty clause so we can delete elements */)
-        {
-                powup->Coordinates.Y += powupSpeed;
-                if (powup->Coordinates.Y > WindowHeight - 1)
-                {
-                        powup = powups.erase(powup);
-                }
-                else
-                {
-                        ++powup;
-                }
-                // CheckCollision(rock->Coordinates.X,rock->Coordinates.Y);
-        }
-        if(frameCounter%50 == 0 && frameCounter!= 0 )
-        {
-        // Spawn a new powup at every x frames
-                int x = rand() % WindowWidth;
-        if( frameCounter%100 == 0 )
-        {
-            powups.push_back(GameObject(x, 0, PowupSymbol1));
-            PowupSymbol = PowupSymbol1;
-        }
-        else 
-        {
-           powups.push_back(GameObject(x,0,PowupSymbol2))
-           PowupSymbol = PowupSymbol2;
-        }
-        
-       // Change Level
-        if( frameCounter == 0 )
-        {
-            system("CLS");
-            cout<<"Level "<<lvlCount<<endl;
-            system("pause");
-        }
-        if(frameCounter%100==0)
-        {
-            lvlCount++;
-            system("CLS");
-            cout<<"Level "<<lvlCount<<endl;
-            system("pause");
-            rockSpeed++;
-            if(rockSpawnInterval>1)
-            {
-                rockSpawnInterval--;
-            }
-            if(dwarfSpeed>1)
-            {
-                dwarfSpeed--;
-            }
-        }
-        frameCounter++;
+		// Change Level
+		if (frameCounter == 0)
+		{
+			system("CLS");
+			cout << "Level " << lvlCount << endl;
+			system("pause");
+		}
+		if (frameCounter % 100 == 0)
+		{
+			lvlCount++;
+			system("CLS");
+			cout << "Level " << lvlCount << endl;
+			system("pause");
+			rockSpeed++;
+			if (rockSpawnInterval > 1)
+			{
+				rockSpawnInterval--;
+			}
+			if (dwarfSpeed > 1)
+			{
+				dwarfSpeed--;
+			}
+		}
+	}
+	frameCounter++;
 }
 
 void Draw()
@@ -317,11 +333,11 @@ void PowUpCollsion()
     }
     for( const_iterator dwarfBody = dwarf.begin(); dwarfBody!=dwarf.end(); ++dwarfBody)
     {
-        int dwarfX = dwarfBody->Coordinates.X
+		int dwarfX = dwarfBody->Coordinates.X;
         int dwarfY = dwarfBody->Coordinates.Y;
         for(const_iterator powup = powups.begin(); powup != powups.end();++powup )
         {
-            int powupX= powup->Coordinates.X
+			int powupX = powup->Coordinates.X;
             int powupY= powup->Coordinates.Y;
             if( dwarfX==powupX && dwarfY==powupY)
             {
@@ -430,12 +446,13 @@ int main()
         {
                 //Stay = Update();
             Update();
-            PowupCollision();
+			PowUpCollsion();
                 if (Stay == false)
                 {
                         break;
                 }
                 Draw();
+				//if (Collision) break;
                 Sleep(sleepDuration);
         }
 
