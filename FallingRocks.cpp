@@ -23,6 +23,7 @@ int rockSpeed = 1;
 
 // Dwarf variables
 int dwarfSpeed = 5;
+int lastdwarfSpeed = 5;
 
 // Game variables
 unsigned long sleepDuration = 200;
@@ -35,15 +36,22 @@ bool Stay = true;
 
 //If the game is running
 bool inGame = false;
+
 //Powups variables
-char PowupSymbol = 'U';
+char PowupSymbol1 = 'F';
+char PowupSymbol2= 'S';
+char PowupSymbol;
 int powupSpeed = 1 ;
+
+//Level variables
+int lvlCount = 1 ; 
 
 vector<GameObject> dwarf;
 vector<GameObject> rocks;
 vector<GameObject> powups;
 
 unsigned int frameCounter = 0;
+unsigned int copyofframeCounter = 0;
 unsigned int rockSpawnInterval = 10;
 
 //void CheckCollision (int rockXCoord, int rockYCoord)
@@ -241,11 +249,30 @@ void Update()
         {
         // Spawn a new powup at every x frames
                 int x = rand() % WindowWidth;
-                powups.push_back(GameObject(x, 0, PowupSymbol));
+        if( frameCounter%100 == 0 )
+        {
+            powups.push_back(GameObject(x, 0, PowupSymbol1));
+            PowupSymbol = PowupSymbol1;
         }
+        else 
+        {
+           powups.push_back(GameObject(x,0,PowupSymbol2))
+           PowupSymbol = PowupSymbol2;
+        }
+        
        // Change Level
+        if( frameCounter == 0 )
+        {
+            system("CLS");
+            cout<<"Level "<<lvlCount<<endl;
+            system("pause");
+        }
         if(frameCounter%100==0)
         {
+            lvlCount++;
+            system("CLS");
+            cout<<"Level "<<lvlCount<<endl;
+            system("pause");
             rockSpeed++;
             if(rockSpawnInterval>1)
             {
@@ -279,7 +306,43 @@ void Draw()
         }
 
 }
-
+void PowUpCollsion()
+{
+    if(frameCounter == (copyofframeCounter+30))
+    {
+       if(dwarfSpeed == 10)
+       {
+           dwarfSpeed = lastdwarfSpeed;
+       }
+    }
+    for( const_iterator dwarfBody = dwarf.begin(); dwarfBody!=dwarf.end(); ++dwarfBody)
+    {
+        int dwarfX = dwarfBody->Coordinates.X
+        int dwarfY = dwarfBody->Coordinates.Y;
+        for(const_iterator powup = powups.begin(); powup != powups.end();++powup )
+        {
+            int powupX= powup->Coordinates.X
+            int powupY= powup->Coordinates.Y;
+            if( dwarfX==powupX && dwarfY==powupY)
+            {
+                copyofframeCounter = frameCounter;
+                if( PowupSymbol == PowupSymbol1)
+                {
+                 dwarfSpeed = 10 ;
+                 system("CLS");
+                 cout<<"Faster"<<endl;
+                 system("pause");
+                }
+                if( PowupSymbol == PowupSymbol2)
+                {
+                    system("CLS");
+                    cout<<"Shrink"<<endl;
+                    system("pause");
+                }
+            }
+        }
+    }
+}
 int main()
 {
         consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -367,6 +430,7 @@ int main()
         {
                 //Stay = Update();
             Update();
+            PowupCollision();
                 if (Stay == false)
                 {
                         break;
