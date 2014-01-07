@@ -33,7 +33,7 @@ marker2
 	Lead programers, level&audio desiners
 		Valeria Mincheva
 		Preslav Semov
-		Cristian Dimitrov
+		Hristian Dimitrov
 		Stanimir Mitev
 
 
