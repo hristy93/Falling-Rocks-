@@ -5,6 +5,8 @@
 #include <iomanip>
 #include <string>
 #include <fstream>
+#include <Windows.h>
+#include <mmsystem.h>
 #include "ConsoleGaming.h"
 
 using namespace std;
@@ -115,6 +117,7 @@ void Instructions()
 
 void MainMenu()
 {
+	 PlaySound(TEXT("kamanitepadat.wav"), NULL, SND_FILENAME|SND_ASYNC);
 	//reseting Global variables if MainMenu() is called from InGameMenu()
 	start=0;
 	quit=0;
@@ -180,6 +183,7 @@ void MainMenu()
 
 void InGameMenu()
 {
+	PlaySound(TEXT("kamanitepadat.wav"), NULL, SND_FILENAME|SND_ASYNC);
 	while(true)
 	{
 		// Prints the MainMenu from "main menu.text". Markers serve as CheckPionts in the text file
@@ -415,7 +419,10 @@ void Update()
 			system("CLS");
 			cout << "Level " << lvlCount << endl;
 		        Sleep(2000);
-			rockSpeed++;
+			if(sleepDuration>10)
+			{
+			    sleepDuration--;
+			}
 			if (rockSpawnInterval > 1)
 			{
 				rockSpawnInterval--;
