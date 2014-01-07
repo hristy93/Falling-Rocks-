@@ -1,0 +1,111 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    _____     _ _ _               ____            _
+   |  ___|_ _| | (_)_ __   __ _  |  _ \\ ___   ___| | _____
+   | |_ / _` | | | | '_ \\ / _` | | |_) / _ \\ / __| |/ / __|
+   |  _| (_| | | | | | | | (_| | |  _ < (_) | (__|   <\\__ \\
+   |_|  \\__,_|_|_|_|_| |_|\\__, | |_| \\_\\___/ \\___|_|\\_\\___/
+                       |___/         		    extream edition
+	
+         	      |	      [N]ew Game 	    |
+ 	 	            |			                  | 
+  	 	          |	      Load Game	      |            #
+	 	            |			                  |
+  	  	        |	      Options		      |                 .
+   	  	        |			                  |           #    o
+          	    |       Hall Of Fame    |               o
+         	      |	 		                  |     	   #   0
+         	      |	      [I]nstructions	|           # O
+         	      |			                  |            N
+         	      |	      [C]redits	      |          \O/
+	 	            |			                  |           |	
+	  	          |	      [Q]uit game	    |          / \
+
+	        press the letter in the [] to make your choise
+		
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+marker1
+
+this shouldnt display
+
+marker2
+
+	      Lead programers, UI and level desiners
+		          Valeria Mincheva
+	          	Preslav Semov
+	          	Stanimir Mitev
+		          Hristian Dimitrov
+
+
+
+Press [q] key to return to main menu.
+
+marker3
+
+In order to be successful in Falling Rocks , 
+the only thing you have to do is stick to this simple rules
+
+1. No BOBY cares about the rules
+2. Don't forget rule 1 
+
+Use [a],[s],[d] and [w] to move around
+Press [m] to go back to the menu while in game
+
+Press [q] key to return to main menu.
+
+marker4
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    _____     _ _ _               ____            _
+   |  ___|_ _| | (_)_ __   __ _  |  _ \\ ___   ___| | _____
+   | |_ / _` | | | | '_ \\ / _` | | |_) / _ \\ / __| |/ / __|
+   |  _| (_| | | | | | | | (_| | |  _ < (_) | (__|   <\\__ \\
+   |_|  \\__,_|_|_|_|_| |_|\\__, | |_| \\_\\___/ \\___|_|\\_\\___/
+                       |___/         		    extream edition
+	
+         	      |	      [C]ontinue Game |
+ 	 	            |			                  | 
+  	 	          |	      Save Game	      |            #
+	 	            |			                  |
+  	  	        |	      Options		      |                 .
+   	  	        |			                  |           #    o
+          	    |       Hall Of Fame    |               o
+         	      |	 		                  |     	   #   0
+         	      |	      [I]nstructions	|           # O
+         	      |			                  |            N
+         	      |	      [M]ain Menu     |          \O/
+	 	            |			                  |           |	
+	  	          |	      [Q]uit game	    |          / \
+
+	        press the letter in the [] to make your choise
+		
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+marker5
+######################################################################
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#		            PUT POLISHED STUFF in a box like this	               #
+#		              	when done replace '#' with ' '		               #
+#								                                                     #
+#			                  Width X Heigth-1		     	                   #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+#								                                                     #
+######################################################################
