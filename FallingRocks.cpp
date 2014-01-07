@@ -541,11 +541,11 @@ int main()
          //  Dwarf shape 1-Small
       
              
-				dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol));
-				dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol1)); 
-                dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol));
-                dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol2));
-                dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol2));
+		dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol2));//hands
+		dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol2));//hands
+		dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol));//legs
+		dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol1));//head
+		dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol));//Body
      /*        
  
        //Shape 1-Big
