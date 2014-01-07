@@ -117,7 +117,7 @@ void Instructions()
 
 void MainMenu()
 {
-	 PlaySound(TEXT("kamanitepadat.wav"), NULL, SND_FILENAME|SND_ASYNC);
+	 //PlaySound(TEXT("kamanitepadat.wav"), NULL, SND_FILENAME|SND_ASYNC);Ще работи , ако добавите в папкат на проекта "kamanitepadat.wav",който ще ви го пратя
 	//reseting Global variables if MainMenu() is called from InGameMenu()
 	start=0;
 	quit=0;
@@ -183,7 +183,7 @@ void MainMenu()
 
 void InGameMenu()
 {
-	PlaySound(TEXT("kamanitepadat.wav"), NULL, SND_FILENAME|SND_ASYNC);
+	//PlaySound(TEXT("kamanitepadat.wav"), NULL, SND_FILENAME|SND_ASYNC);Ще работи , ако добавите в папкат на проекта "kamanitepadat.wav",който ще ви го пратя
 	while(true)
 	{
 		// Prints the MainMenu from "main menu.text". Markers serve as CheckPionts in the text file
