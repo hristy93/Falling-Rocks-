@@ -3,6 +3,8 @@
 #include <conio.h>
 #include <time.h>
 #include <iomanip>
+#include <string>
+#include <fstream>
 #include "ConsoleGaming.h"
 
 using namespace std;
@@ -15,7 +17,7 @@ typedef vector<GameObject>::const_iterator const_iterator;
 
 // Window constants
 const int WindowWidth = 80;
-const int WindowHeight = 20;
+const int WindowHeight = 30;
 
 // Rock variables
 char RockSymbol = '#';
@@ -31,17 +33,25 @@ int stoneCounter = 0;
 //Color variable
 unsigned char colour = 0xF;
 
+//Variables to help menu navigation,start and quit game
+bool quit=0;
+bool start=0;
+bool tobreak=1;
+bool toprint=0;
+
 // Game variables
 unsigned long sleepDuration = 200;
 
 //Collision detection
-bool Collision = false;
+//incompetable with void Collision had to remove it
 
 //If the cmd will close
-bool Stay = true;
+bool Stay = true;  //change Stay to quit or vice versa, discusss on next team metting
+		   //not used in current build
 
 //If the game is running
-bool inGame = false;
+bool inGame = false;  //change inGame to start or vice versa, discusss on next team metting
+		      //not used in current build
 
 //Powups variables
 char PowupSymbol1 = 'F';
@@ -72,79 +82,163 @@ unsigned int rockSpawnInterval = 10;
 //   }
 //}
 
-void ShowMenu()
+void Credits()
 {
-    ClearScreen(consoleHandle);
-        cout << " _____     _ _ _               ____            _" << endl;
-        cout << "|  ___|_ _| | (_)_ __   __ _  |  _ \\ ___   ___| | _____" << endl;
-        cout << "| |_ / _` | | | | '_ \\ / _` | | |_) / _ \\ / __| |/ / __|" << endl;
-        cout << "|  _| (_| | | | | | | | (_| | |  _ < (_) | (__|   <\\__ \\" << endl;
-        cout << "|_|  \\__,_|_|_|_|_| |_|\\__, | |_| \\_\\___/ \\___|_|\\_\\___/" << endl;
-        cout << "                       |___/" << endl;
-        int choice = 1;
-        if (!inGame)
-        {
-                cout << "Choose an option:" << endl;
-                cout << "1 - Start a new game" << endl;
-                cout << "2 - Game intructions" << endl;
-                cout << "3 - Show your highest score" << endl;
-                cout << "4 - Exit the game" << endl;
-                cout << "You can always retun to this menu by pressing the M key" << endl;
-        }
-        else
-        {
-                cout << "Choose an option:" << endl;
-                cout << "1 - Resume the game" << endl;
-                cout << "2 - Start a new game" << endl;
-                cout << "3 - Game intructions" << endl;
-                cout << "4 - Show your highest score" << endl;
-                cout << "5 - Exit the game" << endl;
-                cout << "You can always retun to this menu by pressing the M key" << endl;
-        }
-        cin >> choice;
-        switch (choice)
-        {
-                case 1:
-                {
-                        return;
-                }
-                case 2:
-                {
-                        if (inGame)
-                        {
-                      /*
-                            rockSpeed = 1;
-                                dwarfSpeed = 1;
-                                sleepDuration = 200;
-                                Collision = false;
-                                Stay = true;
-                                inGame = false;
-                                frameCounter = 0;
-                                rockSpawnInterval = 10;
-                                goto MainFunk;
-                                */
-                                break;
+	// Prints the Credits from "main menu.text". Markers serve as CheckPionts in the text file
+	string line;
+	ifstream myfile("main menu.txt");
+	system("CLS");
+	myfile.seekg(ios::beg);
+	while (getline (myfile,line))
+	{
+		if(line=="marker3") {toprint=0; break;} // cycle ends whene marker3 is reached
+		if(toprint==1) {cout<<line<<endl;}
+		if(line=="marker2") {toprint=1;} // Prints everyline below marker2
+	}
 
-                        }
-                }
-                case 4:
-                {
-                        if (!inGame)
-                        {
-                                Stay = false;
-                                break;
-                        }
-                }
-                case 5:
-                {
-                        if (inGame)
-                        {
-                                Stay = false;
-                                break;
-                        }
-                }
-        }
+}
 
+void Instructions()
+{
+	// Prints the Credits from "main menu.text". Markers serve as CheckPionts in the text file
+	string line;
+	ifstream myfile("main menu.txt");
+	system("CLS");
+	myfile.seekg(ios::beg);
+	while (getline (myfile,line))
+	{
+		if(line=="marker4") {toprint=0; break;} // cycle ends whene marker4 from the text  file is reached
+		if(toprint==1) {cout<<line<<endl;}
+		if(line=="marker3") {toprint=1;}	// Prints everyline below marker3 in the text  file
+	}
+}
+
+void MainMenu()
+{
+	//reseting Global variables if MainMenu() is called from InGameMenu()
+	start=0;
+	quit=0;
+	while(true)
+	{
+		// Prints the MainMenu from "main menu.text". Markers serve as CheckPionts in the text file
+		system("CLS");
+		string line;
+		ifstream myfile("main menu.txt");
+		if (myfile.is_open())
+		{
+			while ( getline (myfile,line) )
+			{
+				if(line=="marker1") {break;} // cycle ends whene marker1 from the text  file is reached
+				cout << line << endl;
+			}
+		    //Printing ends
+
+			//Program waits for the user to press one of the following keys
+			while(true)
+			{
+				if(_kbhit())
+				{			
+					char mainmenukey=_getch();
+					switch (mainmenukey)
+					{
+					case 'n':
+							//make a function for reseting every game variable
+							//make a function to empty the dwarf,rock and powup vectors if not empty
+							//include a "choose a character" function here maybe
+							//see if this works
+							start=1;
+							break;
+					case 'c':
+							Credits();
+							break;
+					case 'i':
+							Instructions();
+							break;
+					case 'q':
+							quit=1;
+							break;
+					default :              //preventinf a bug part 1   
+							tobreak=0;
+					}
+					if(tobreak!=0) {break;}   //preventing a bug
+					else {tobreak=1;}		  //part 2
+				}
+			}
+		}
+
+		if(start==1) { start=0; break; } // Game starts, first way to end cycle
+		if(quit==1)  {break;}			 // cycle ends, game will quit to windows
+
+		//user will return to main menu if credits() or instructions() is called
+		while(true)
+		{				
+			char mainmenukey=_getch();
+			if(mainmenukey=='q') {break;}			
+		}	
+	}
+}
+
+void InGameMenu()
+{
+	while(true)
+	{
+		// Prints the MainMenu from "main menu.text". Markers serve as CheckPionts in the text file
+		system("CLS");
+		string line;
+		ifstream myfile("main menu.txt");
+		if (myfile.is_open())
+		{
+			while(getline(myfile,line))
+			{
+				if(line=="marker5") {toprint=0; break;} // cycle ends whene marker5 from the text  file is reached
+				if(toprint==1) {cout<<line<<endl;}
+				if(line=="marker4") {toprint=1;}
+			}
+			//Printing ends
+
+			//Program waits for the user to press one of the following keys
+			while(true)
+			{
+				if(_kbhit())
+				{
+				
+					char mainmenukey=_getch();
+					switch (mainmenukey)
+					{
+					case 'c':
+							start=1;
+							break;
+					case 'i':
+							Instructions();
+							break;
+					case 'm':
+							quit=1;
+							start=1;
+							break;
+					case 'q':
+							quit=1;
+							break;
+					default :				 //preventinf a bug part 1 
+							tobreak=0;
+					}
+					if(tobreak!=0) {break;}	//preventing a bug
+					else {tobreak=1;}		//part 2
+				}
+			}
+		}
+
+		if(start==1 && quit==0) {start=0; break;} //game will contunie
+		if(quit==1 && start==0) {break;}		  //game will quit
+		if(quit==1 && start==1) {break;}		  //game will return to main menu
+
+		//user will return to main menu if instructions() is called
+		while(true)
+		{				
+			char ingamemainmenukey=_getch();
+			if(ingamemainmenukey=='q') {break;}			
+		}
+	}
+	if(quit==1 && start==1) MainMenu();		//game returns to main menu
 }
 
 void Update()
@@ -205,7 +299,7 @@ void Update()
 				 }
 				 break;
 		case 'm':
-			ShowMenu();
+			InGameMenu();
 			break;
 		};
 	}
@@ -355,6 +449,29 @@ void Draw()
         }
 
 }
+
+void Collision()
+{
+	//Checks for elemetns with matching coordintaes from the dwarf and rock vector
+	for (const_iterator dwarfBody = dwarf.cbegin(); dwarfBody != dwarf.cend(); ++dwarfBody)
+	{
+		int testdwarfX=dwarfBody->Coordinates.X;
+		int testdwarfY=dwarfBody->Coordinates.Y;
+		for (const_iterator rock = rocks.cbegin(); rock != rocks.cend(); ++rock)
+		{
+			int testrockX=rock->Coordinates.X;
+			int testrockY=rock->Coordinates.Y;
+			if(testdwarfX==testrockX && testdwarfY==testrockY)
+			{
+				system("CLS");
+				cout<<"GG WP"<<endl; //include a "Angry Video Game Nerd" game over quote later
+				Sleep(2000);     
+				MainMenu();
+			}
+		}
+	}
+}
+
 void PowUpCollsion()
 {
     if(frameCounter == (copyofframeCounter+30))
@@ -397,8 +514,14 @@ void PowUpCollsion()
         }
     }
 }
+
 int main()
 {
+	MainMenu();
+	if(quit==1) 
+	{
+		return 0;
+	}
         consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
         srand(time(NULL));
         int dwarfY = WindowHeight;
@@ -478,20 +601,18 @@ int main()
         dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol3));//Body 
 		dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol9));//legs 
        */   
-        ShowMenu();
-        inGame = true;
-        while (Stay)
+        inGame = true; //Delete? Where is this used?
+        while (true)
         {
-                //Stay = Update();
-            Update();
-			PowUpCollsion();
-                if (Stay == false)
-                {
-                        break;
-                }
-                Draw();
-				//if (Collision) break;
-                Sleep(sleepDuration);
+		Update();
+		if(quit==1) 
+		{
+			break;
+		}
+		Collision();
+		PowUpCollsion();
+		Draw();
+		Sleep(sleepDuration);
         }
 
         return 0;
