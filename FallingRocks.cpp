@@ -9,6 +9,8 @@
 #include <mmsystem.h>
 #include "ConsoleGaming.h"
 
+#define QUIT_CHAR 'q'
+
 using namespace std;
 using namespace ConsoleColors;
 
@@ -19,16 +21,19 @@ typedef vector<GameObject>::const_iterator const_iterator;
 
 // Window constants
 const int WindowWidth = 80;
-const int WindowHeight = 30;
+const int WindowHeight = 25;
 
 // Rock variables
 char RockSymbol = '#';
 int rockSpeed = 1;
 
 // Dwarf variables
-int dwarfSpeed = 5;
+int dwarfSpeed = 3;
 int lastdwarfSpeed = 5;
-
+int dwarfShape = 1 ;
+int lastDwarfShape = 1 ;
+int EnlargeX=WindowWidth / 2;
+int EnlargeY=WindowHeight;
 //Counts the number of the stones
 int stoneCounter = 0;
 
@@ -55,11 +60,15 @@ bool Stay = true;  //change Stay to quit or vice versa, discusss on next team me
 bool inGame = false;  //change inGame to start or vice versa, discusss on next team metting
 		      //not used in current build
 
+
 //Powups variables
 char PowupSymbol1 = 'F';
 char PowupSymbol2= 'S';
 char PowupSymbol;
 int powupSpeed = 1 ;
+
+//If the dwarf is shrinked
+bool isShrinked = false;
 
 //Level variables
 int lvlCount = 1 ; 
@@ -67,7 +76,7 @@ int lvlCount = 1 ;
 vector<GameObject> dwarf;
 vector<GameObject> rocks;
 vector<GameObject> powups;
-
+//Stack for saving the dwarfs vectors
 unsigned int frameCounter = 0;
 unsigned int copyofframeCounter = 0;
 unsigned int rockSpawnInterval = 10;
@@ -83,6 +92,136 @@ unsigned int rockSpawnInterval = 10;
 //       }
 //   }
 //}
+void Reset()
+{
+// Dwarf variables
+int dwarfSpeed = 3;
+int lastdwarfSpeed = 5;
+ dwarfShape = 1 ;
+ lastDwarfShape = 1 ;
+EnlargeX=WindowWidth / 2;
+EnlargeY=WindowHeight;
+//Counts the number of the stones
+int stoneCounter = 0;
+
+//Color variable
+unsigned char colour = 0xF;
+
+// Game variables
+unsigned long sleepDuration = 200;
+
+//Collision detection
+//incompetable with void Collision had to remove it
+
+//If the cmd will close
+bool Stay = true;  //change Stay to quit or vice versa, discusss on next team metting
+		   //not used in current build
+
+//If the game is running
+bool inGame = false;  //change inGame to start or vice versa, discusss on next team metting
+		      //not used in current build
+
+//If the dwarf is shrinked
+bool isShrinked = false;
+
+//Level variables
+int lvlCount = 1 ; 
+//Counts frames;
+unsigned int frameCounter = 0;
+unsigned int copyofframeCounter = 0;
+unsigned int rockSpawnInterval = 10;
+dwarf.clear();
+rocks.clear();
+powups.clear();
+}
+void LastDwarf()
+{  
+	int dwarfY = EnlargeY;  
+	int dwarfX = EnlargeX;
+	    char dwarfSymbol = '*';
+        char dwarfSymbol1 = '0';
+        char dwarfSymbol2 = '^';
+        char dwarfSymbol3 = '|';
+        char dwarfSymbol4 = '~';
+        char dwarfSymbol5 = '^^';
+        char dwarfSymbol6 = '#';
+        char dwarfSymbol7 = '/';
+        char dwarfSymbol8 = '-';
+        char dwarfSymbol9 = '\\';
+		//   int  dwarfX = dwarf->Coordinates.X;
+		if(isShrinked)
+		{
+			lastDwarfShape=0;
+		}
+	
+		switch(lastDwarfShape)
+		{
+                case 0:
+					dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol2));
+					dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol2));
+				        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol));
+					dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol1)); 
+					dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol));
+			                break;
+            case 1:
+     
+       //Shape 1-Big
+        dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol2));//hands
+        dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol2));//hands
+        dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol7));//legs
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 4, dwarfSymbol1));//head
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol));//Body
+        dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol9));//legs   
+       break;
+			case 2:
+        // shape 2-Small
+          dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol4));//hands
+          dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol4));//hands
+          dwarf.push_back(GameObject(dwarfX -1, dwarfY, dwarfSymbol2));//legs
+		  dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol1));//head
+          dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol2));//legs
+          dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
+          dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body
+       
+         break;
+			case 3:
+        // shape 2-Big
+		dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol4));//hands
+        dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol4));//hands
+        dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol2));//legs
+         dwarf.push_back(GameObject(dwarfX, dwarfY - 4, dwarfSymbol1));//head 
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol3));//Body
+		dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol2));//legs
+
+    break;
+			case 4:
+        //Shape 3-small    
+		dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol8));//hands
+        dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol8));//hands
+        dwarf.push_back(GameObject(dwarfX -1, dwarfY, dwarfSymbol7));//legs
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol6));//head
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body 
+		dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol9));//legs
+		 break;
+			case 5:
+          //Shape 3-Big
+	    dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol8));//hands
+        dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol8));//hands
+        dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol7));//legs
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 4, dwarfSymbol6));//head  
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol3));//Body 
+		dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol9));//legs 
+          break;
+		}
+		lastDwarfShape = dwarfShape;
+}
 
 void Credits()
 {
@@ -117,12 +256,13 @@ void Instructions()
 
 void MainMenu()
 {
-	 //PlaySound(TEXT("kamanitepadat.wav"), NULL, SND_FILENAME|SND_ASYNC);Ще работи , ако добавите в папкат на проекта "kamanitepadat.wav",който ще ви го пратя
+    //PlaySound(TEXT("kamanitepadat.wav"), NULL, SND_FILENAME|SND_ASYNC);
 	//reseting Global variables if MainMenu() is called from InGameMenu()
 	start=0;
 	quit=0;
 	while(true)
 	{
+
 		// Prints the MainMenu from "main menu.text". Markers serve as CheckPionts in the text file
 		system("CLS");
 		string line;
@@ -149,7 +289,11 @@ void MainMenu()
 							//make a function to empty the dwarf,rock and powup vectors if not empty
 							//include a "choose a character" function here maybe
 							//see if this works
+						    Reset();
+						    cin >> dwarfShape;
+							lastDwarfShape = dwarfShape;
 							start=1;
+							LastDwarf();
 							break;
 					case 'c':
 							Credits();
@@ -158,34 +302,35 @@ void MainMenu()
 							Instructions();
 							break;
 					case 'q':
-							quit=1;
+							quit=true;
 							break;
 					default :              //preventinf a bug part 1   
-							tobreak=0;
+							tobreak=false;
 					}
-					if(tobreak!=0) {break;}   //preventing a bug
+					if(tobreak) {break;}   //preventing a bug
 					else {tobreak=1;}		  //part 2
 				}
 			}
 		}
 
-		if(start==1) { start=0; break; } // Game starts, first way to end cycle
-		if(quit==1)  {break;}			 // cycle ends, game will quit to windows
+		if(start) { start=0; break; } // Game starts, first way to end cycle
+		if(quit)  {break;}			 // cycle ends, game will quit to windows
 
 		//user will return to main menu if credits() or instructions() is called
 		while(true)
 		{				
 			char mainmenukey=_getch();
-			if(mainmenukey=='q') {break;}			
+			if(mainmenukey==QUIT_CHAR) {break;}			
 		}	
 	}
 }
 
 void InGameMenu()
 {
-	//PlaySound(TEXT("kamanitepadat.wav"), NULL, SND_FILENAME|SND_ASYNC);Ще работи , ако добавите в папкат на проекта "kamanitepadat.wav",който ще ви го пратя
+//	PlaySound(TEXT("kamanitepadat.wav"), NULL, SND_FILENAME|SND_ASYNC);
 	while(true)
 	{
+		
 		// Prints the MainMenu from "main menu.text". Markers serve as CheckPionts in the text file
 		system("CLS");
 		string line;
@@ -230,7 +375,6 @@ void InGameMenu()
 				}
 			}
 		}
-
 		if(start==1 && quit==0) {start=0; break;} //game will contunie
 		if(quit==1 && start==0) {break;}		  //game will quit
 		if(quit==1 && start==1) {break;}		  //game will return to main menu
@@ -297,9 +441,8 @@ void Update()
 				 }
 				 else
 				 {
-                                                 direction.X = 0; 
-						 direction.Y = WindowHeight -  dwarf[2].Coordinates.Y - 1;
-		
+                         direction.X = 0; 
+						 direction.Y = WindowHeight - dwarf[2].Coordinates.Y - 1;
 				 }
 				 break;
 		case 'm':
@@ -311,9 +454,11 @@ void Update()
 	{
 		dwarfBody->Coordinates.X += direction.X;
 		dwarfBody->Coordinates.Y += direction.Y;
+		
 		//dwarfBody->Color = Green;
 	}
-
+	EnlargeX=dwarf[4].Coordinates.X;
+	EnlargeY=dwarf[4].Coordinates.Y;
 	// Update the position of all rocks. Remove any rock that goes outside the window
 
 	for (randomAccess_iterator rock = rocks.begin(); rock != rocks.end(); /* Empty clause so we can delete elements */)
@@ -419,15 +564,15 @@ void Update()
 			system("CLS");
 			cout << "Level " << lvlCount << endl;
 		        Sleep(2000);
-			if(sleepDuration>10)
-			{
-			    sleepDuration--;
-			}
+				if (sleepDuration>10)
+				{
+                sleepDuration-=10;
+				}
 			if (rockSpawnInterval > 1)
 			{
 				rockSpawnInterval--;
 			}
-			if (dwarfSpeed > 1)
+			if (dwarfSpeed > 3)
 			{
 				dwarfSpeed--;
 			}
@@ -479,6 +624,44 @@ void Collision()
 	}
 }
 
+
+
+
+//void eventDispatcher(int now)
+//{
+//	// Enlarge moment
+//	//if(enlargeMoments.size())
+//	//{
+//	//if(now >= enlargeMoments.top())
+//	//{
+//	//	enlargeMoments.pop();
+//	//	enlargeDwarf();
+//	//}}
+//
+//	//// Speed up rocks
+//	//if(now >= )
+//	//{
+//	//	speedUpRocks();
+//	//}
+//
+//	//Stack<Dwarf> dwarfHistory;
+//
+//
+//	//// shrink
+//	//Dwarf d = new Dwarf(currentDwarf.size()-1);
+//	//dH.push(currentDwarf);
+//	//currentDwarf = d;
+//	stack
+//
+//	// enlarge
+//	if(!d.size()) return;
+//	Dwarf d = dH.top();
+////	dH.pop();
+////
+//	// Other events
+//
+//}
+
 void PowUpCollsion()
 {
     if(frameCounter == (copyofframeCounter+30))
@@ -487,7 +670,15 @@ void PowUpCollsion()
        {
            dwarfSpeed = lastdwarfSpeed;
        }
+	   if(isShrinked)
+	   {
+		   dwarf.clear();
+		   isShrinked = false;
+		   LastDwarf();
+		   
+	   }
     }
+	
     for( const_iterator dwarfBody = dwarf.begin(); dwarfBody!=dwarf.end(); ++dwarfBody)
     {
 		int dwarfX = dwarfBody->Coordinates.X;
@@ -506,20 +697,35 @@ void PowUpCollsion()
                  cout<<"Faster"<<endl;
                  Sleep(2000);
                 }
-                if( PowupSymbol == PowupSymbol2)
+                if( PowupSymbol == PowupSymbol2 && !isShrinked)
                 {
+					isShrinked = true;
                     system("CLS");
                     cout<<"Shrink"<<endl;
                     Sleep(2000);
+				/*while(!dwarf.empty())
+				{
+					dwarf.pop_back();
+					dwarf.
+				}*/
+					dwarf.clear();
+					LastDwarf();
                 }
                if(!powups.empty())
-	        {
-				powups.pop_back();
-				break;
-	        }
+				{
+					powups.erase(powup);
+					break;
+				}
+
+			   //goto dwarf_loop_end;
             }
         }
+		if(powups.empty())
+		{
+			break;
+		}
     }
+	//dwarf_loop_end:;
 }
 
 int main()
@@ -529,87 +735,13 @@ int main()
 	{
 		return 0;
 	}
+
         consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
         srand(time(NULL));
         int dwarfY = WindowHeight;
-        //  int dwarfY = WindowHeight - 1;
         int dwarfX = WindowWidth / 2;
-
-        char dwarfSymbol = '*';
-        char dwarfSymbol1 = '0';
-        char dwarfSymbol2 = '^';
-        char dwarfSymbol3 = '|';
-        char dwarfSymbol4 = '~';
-        char dwarfSymbol5 = '^^';
-        char dwarfSymbol6 = '#';
-        char dwarfSymbol7 = '/';
-        char dwarfSymbol8 = '-';
-        char dwarfSymbol9 = '\\';
-         //  Dwarf shape 1-Small
-      
-             
-		dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol2));//hands
-		dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol2));//hands
-		dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol));//legs
-		dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol1));//head
-		dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol));//Body
-     /*        
- 
-       //Shape 1-Big
-        dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol2));//hands
-        dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol2));//hands
-        dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol7));//legs
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 4, dwarfSymbol1));//head
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol));//Body
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol));//Body
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol));//Body
-        dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol9));//legs   
-       
-     
-        // shape 2-Small
-          dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol4));//hands
-          dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol4));//hands
-          dwarf.push_back(GameObject(dwarfX -1, dwarfY, dwarfSymbol2));//legs
-		  dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol1));//head
-          dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol2));//legs
-          dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
-          dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body
-       
-        
-              
-        // shape 2-Big
-		dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol4));//hands
-        dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol4));//hands
-        dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol2));//legs
-         dwarf.push_back(GameObject(dwarfX, dwarfY - 4, dwarfSymbol1));//head 
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol3));//Body
-		dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol2));//legs
-
-   
-
-        //Shape 3-small    
-		dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol8));//hands
-        dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol8));//hands
-        dwarf.push_back(GameObject(dwarfX -1, dwarfY, dwarfSymbol7));//legs
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol6));//head
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body 
-		dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol9));//legs
-
-      */   /*  //Shape 3-Big
-	dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol8));//hands
-        dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol8));//hands
-        dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol7));//legs
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 4, dwarfSymbol6));//head  
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol3));//Body 
-		dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol9));//legs 
-       */   
-        inGame = true; //Delete? Where is this used?
-        while (true)
+        inGame = true; //Delete? Where is this used?//It's better to have a variable
+        while (inGame)
         {
 		Update();
 		if(quit==1) 
