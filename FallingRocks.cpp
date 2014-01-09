@@ -109,6 +109,29 @@ void Reset()
 	rocks.clear();
 	powups.clear();
 }
+void chooseDwarfShape()
+{       ClearScreen(consoleHandle);
+	    cout<<"=======================================================================================================";
+	    cout<<"                     Please choose one of the following dwarfs,to play with!";
+		cout<<"    #       0       0        0         #";
+		cout<<"   -|-     ~|~    ~~|~~      *         |";
+		cout<<"    |       |       |      ^^*^^     --|--";
+		cout<<"   / \     ^ ^      |        *         |";
+		cout<<"                  ^^ ^^    // \\     // \\";
+		cout<<"                                           ";
+	    cout<<"    1       2       3        4        5";
+		cout<<"=======================================================================================================";
+		
+}
+
+void chooseDwarfColor()
+{
+	cout<<"============================================";
+	cout<<"Please choose one of the following colors:";
+	cout<<"Blue(1) Green(2) Red(3)  Yellow(4)  Purple(5)  Cyan(6)   White(8)";
+	cout<<"                                                                 ";
+	cout<<"Enjoy!";
+}
 
 void ChangeColor()
 {
