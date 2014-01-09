@@ -34,6 +34,7 @@ int dwarfShape = 1 ;
 int lastDwarfShape = 1 ;
 int EnlargeX=WindowWidth / 2;
 int EnlargeY=WindowHeight;
+int dwarfColor = 8 ; 
 
 //Counts the number of the stones
 int stoneCounter = 0;
@@ -159,20 +160,15 @@ void LastDwarf()
 	    dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol));
 		break;
             case 1:
-        //Shape 1-Big
-        dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol2));//hands
-        dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol2));//hands
-        dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol7));//legs
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 4, dwarfSymbol1));//head
-	dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol2));//arms
-        dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol2));//arms
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol));//Body
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol));//Body
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol));//Body
-        dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol9));//legs 
-	dwarf.push_back(GameObject(dwarfX - 1, dwarfY, dwarfSymbol7));//legs 
-	dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol9));//legs 
-        break;
+          //Shape 1-small    
+		dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol8));//hands
+        dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol8));//hands
+        dwarf.push_back(GameObject(dwarfX -1, dwarfY, dwarfSymbol7));//legs
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol6));//head
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body 
+		dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol9));//legs
+		 break;
 			case 2:
         // shape 2-Small
           dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol4));//hands
@@ -185,7 +181,7 @@ void LastDwarf()
        
          break;
 			case 3:
-        // shape 2-Big
+        // shape 1-Big
 		dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol4));//hands
         dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol4));//hands
         dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol2));//legs
@@ -198,32 +194,38 @@ void LastDwarf()
 		dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol2));//legs
 		dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol2));//legs
 		dwarf.push_back(GameObject(dwarfX - 1, dwarfY, dwarfSymbol2));//legs
-    break;
+        break;
 			case 4:
-        //Shape 3-small    
-		dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol8));//hands
-        dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol8));//hands
-        dwarf.push_back(GameObject(dwarfX -1, dwarfY, dwarfSymbol7));//legs
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol6));//head
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
-        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body 
-		dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol9));//legs
-		 break;
+    
+		   //Shape 2-Big
+        dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol2));//hands
+        dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol2));//hands
+        dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol7));//legs
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 4, dwarfSymbol1));//head
+		dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol2));//arms
+        dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol2));//arms
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol));//Body
+        dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol9));//legs 
+		dwarf.push_back(GameObject(dwarfX - 1, dwarfY, dwarfSymbol7));//legs 
+		dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol9));//legs 
+        break;
 			case 5:
           //Shape 3-Big
-		dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol8));//hands
-	        dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol8));//hands
-	        dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol7));//legs
-	        dwarf.push_back(GameObject(dwarfX, dwarfY - 4, dwarfSymbol6));//head  
-	        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
-	        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body
-	        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol3));//Body 
+	    dwarf.push_back(GameObject(dwarfX - 2, dwarfY - 2, dwarfSymbol8));//hands
+        dwarf.push_back(GameObject(dwarfX + 2, dwarfY - 2, dwarfSymbol8));//hands
+        dwarf.push_back(GameObject(dwarfX -2, dwarfY, dwarfSymbol7));//legs
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 4, dwarfSymbol6));//head  
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 1, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 2, dwarfSymbol3));//Body
+        dwarf.push_back(GameObject(dwarfX, dwarfY - 3, dwarfSymbol3));//Body 
 		dwarf.push_back(GameObject(dwarfX - 1, dwarfY - 2, dwarfSymbol8));//arms
-	        dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol8));//arms
+        dwarf.push_back(GameObject(dwarfX + 1, dwarfY - 2, dwarfSymbol8));//arms
 		dwarf.push_back(GameObject(dwarfX + 2, dwarfY, dwarfSymbol9));//legs 
 		dwarf.push_back(GameObject(dwarfX + 1, dwarfY, dwarfSymbol9));//legs 
 		dwarf.push_back(GameObject(dwarfX - 1, dwarfY, dwarfSymbol7));//legs 
-	        break;
+        break;
 		}
 		lastDwarfShape = dwarfShape;
 }
@@ -295,7 +297,10 @@ void MainMenu()
 							//include a "choose a character" function here maybe
 							//see if this works
 						    Reset();
+							// Here we have to put function for the five options for  dwarfShape 
 						    cin >> dwarfShape;
+							// Here we have to put the function for eight options for  dwarfColor in function
+							cin >> dwarfColor;
 							lastDwarfShape = dwarfShape;
 							start=1;
 							LastDwarf();
@@ -523,8 +528,17 @@ void Update()
 	{
 		dwarfBody->Coordinates.X += direction.X;
 		dwarfBody->Coordinates.Y += direction.Y;
-		
-		//dwarfBody->Color = Green;
+		switch(dwarfColor)
+		{
+		case 1: dwarfBody->Color = Blue;break;
+		case 2: dwarfBody->Color = Green;break;
+		case 3: dwarfBody->Color = Red;break;
+		case 4: dwarfBody->Color = Yellow;break;
+		case 5: dwarfBody->Color = Purple;break;
+		case 6: dwarfBody->Color = Cyan;break;
+		case 7: dwarfBody->Color = Smth;break;
+		case 8: dwarfBody->Color = White;break;
+		}
 	}
 	EnlargeX=dwarf[4].Coordinates.X;
 	EnlargeY=dwarf[4].Coordinates.Y;
@@ -617,37 +631,11 @@ void Draw()
 void Collision();
 //void eventDispatcher(int now)
 //{
-//	// Enlarge moment
-//	//if(enlargeMoments.size())
-//	//{
-//	//if(now >= enlargeMoments.top())
-//	//{
-//	//	enlargeMoments.pop();
-//	//	enlargeDwarf();
-//	//}}
-//
-//	//// Speed up rocks
-//	//if(now >= )
-//	//{
-//	//	speedUpRocks();
-//	//}
-//
-//	//Stack<Dwarf> dwarfHistory;
-//
-//
-//	//// shrink
-//	//Dwarf d = new Dwarf(currentDwarf.size()-1);
-//	//dH.push(currentDwarf);
-//	//currentDwarf = d;
-//	stack
-//
-//	// enlarge
-//	if(!d.size()) return;
-//	Dwarf d = dH.top();
-////	dH.pop();
-////
-//	// Other events
-//
+//  if(framecounter = 10 )
+//  event
+//  if(framecounter = 3000000)
+//   event
+//   Other events
 //}
 
 // Returns the dwarf to his previous speed or shape, after powups had expired
