@@ -21,7 +21,7 @@ typedef vector<GameObject>::const_iterator const_iterator;
 
 // Window constants
 const int WindowWidth = 80;
-const int WindowHeight = 25;
+const int WindowHeight = 26;
 
 // Rock variables
 char RockSymbol = '#';
@@ -33,7 +33,7 @@ int lastdwarfSpeed = 5;
 int dwarfShape = 1 ;
 int lastDwarfShape = 1 ;
 int EnlargeX = WindowWidth / 2;
-int EnlargeY = WindowHeight - 1;
+int EnlargeY = WindowHeight - 2;
 int dwarfColor = 8 ; 
 
 //Counts the number of the stones
@@ -73,6 +73,34 @@ unsigned int frameCounter = 0;
 unsigned int copyofframeCounter = 0;
 unsigned int rockSpawnInterval = 10;
 
+void CharacterSelection()
+{
+	string line;
+	ifstream myfile("main menu.txt");
+	system("CLS");
+	myfile.seekg(ios::beg);
+	while (getline (myfile,line))
+	{
+		if(line=="marker6") {toprint=0; break;} // cycle ends whene marker6 is reached
+		if(toprint==1) {cout<<line<<endl;}
+		if(line=="marker5") {toprint=1;} // Prints everyline below marker5
+	}
+}
+
+void CharacterColorSelection()
+{
+	string line;
+	ifstream myfile("main menu.txt");
+	system("CLS");
+	myfile.seekg(ios::beg);
+	while (getline (myfile,line))
+	{
+		if(line=="marker7") {toprint=0; break;} // cycle ends whene marker7 is reached
+		if(toprint==1) {cout<<line<<endl;}
+		if(line=="marker6") {toprint=1;} // Prints everyline below marker6
+	}
+}
+
 void Reset()
 {
 	// Dwarf variables
@@ -81,7 +109,7 @@ void Reset()
 	dwarfShape = 1 ;
 	lastDwarfShape = 1 ;
 	EnlargeX = WindowWidth / 2;
-	EnlargeY = WindowHeight - 1;
+	EnlargeY = WindowHeight - 2;
 
 	//Counts the number of the stones
 	stoneCounter = 0;
@@ -108,29 +136,6 @@ void Reset()
 	dwarf.clear();
 	rocks.clear();
 	powups.clear();
-}
-void chooseDwarfShape()
-{       ClearScreen(consoleHandle);
-	    cout<<"=======================================================================================================";
-	    cout<<"                     Please choose one of the following dwarfs,to play with!";
-		cout<<"    #       0       0        0         #";
-		cout<<"   -|-     ~|~    ~~|~~      *         |";
-		cout<<"    |       |       |      ^^*^^     --|--";
-		cout<<"   / \     ^ ^      |        *         |";
-		cout<<"                  ^^ ^^    // \\     // \\";
-		cout<<"                                           ";
-	    cout<<"    1       2       3        4        5";
-		cout<<"=======================================================================================================";
-		
-}
-
-void chooseDwarfColor()
-{
-	cout<<"============================================";
-	cout<<"Please choose one of the following colors:";
-	cout<<"Blue(1) Green(2) Red(3)  Yellow(4)  Purple(5)  Cyan(6)   White(8)";
-	cout<<"                                                                 ";
-	cout<<"Enjoy!";
 }
 
 void ChangeColor()
@@ -281,7 +286,7 @@ void Instructions()
 	{
 		if(line=="marker4") {toprint=0; break;} // cycle ends whene marker4 from the text  file is reached
 		if(toprint==1) {cout<<line<<endl;}
-		if(line=="marker3") {toprint=1;}	// Prints everyline below marker3 in the text  file
+		if(line=="marker3") {toprint=1;}        // Prints everyline below marker3 in the text  file
 	}
 }
 
@@ -311,35 +316,51 @@ void MainMenu()
 			while(true)
 			{
 				if(_kbhit())
-				{			
+				{                        
 					char mainmenukey=_getch();
 					switch (mainmenukey)
 					{
 					case 'n':
-						//make a function for reseting every game variable
-						//make a function to empty the dwarf,rock and powup vectors if not empty
-						//include a "choose a character" function here maybe
-						//see if this works
-
 						//Reset();
-
 						// Here we have to put function for the five options for  dwarfShape 
-						cin >> dwarfShape;
-						if ( dwarfShape < 1 || dwarfShape > 5 )
+						CharacterSelection();
+						while(true)
 						{
-							while(dwarfShape < 1 || dwarfShape > 5)
+							if(_kbhit)
 							{
-								cin>>dwarfShape;
+								while(true)
+								{
+									char model;
+									model=_getch();
+
+									if(model>48 && model<54)
+									{
+										dwarfShape=model-48;
+										break;
+									}
+								}
 							}
+							break;
 						}
 						// Here we have to put the function for eight options for  dwarfColor in function
-						cin >> dwarfColor;
-						if ( dwarfColor < 1 || dwarfColor > 8 )
+						CharacterColorSelection();
+						while(true)
 						{
-							while(dwarfColor < 1 || dwarfColor > 8)
+							if(_kbhit)
 							{
-								cin>>dwarfColor;
+								while(true)
+								{
+									char color;
+									color=_getch();
+
+									if(color>48 && color<57)
+									{
+										dwarfColor=color-48;
+										break;
+									}
+								}
 							}
+							break;
 						}
 						lastDwarfShape = dwarfShape;
 						start=1;
@@ -357,21 +378,37 @@ void MainMenu()
 					default :              //preventinf a bug part 1   
 						tobreak=false;
 					}
-					if(tobreak) {break;}   //preventing a bug
-					else {tobreak=1;}		  //part 2
+					if(tobreak) 
+					{
+						break;
+					}   //preventing a bug
+					else 
+					{
+						tobreak=1;
+					}                  //part 2
 				}
 			}
 		}
 
-		if(start) { start=0; break; } // Game starts, first way to end cycle
-		if(quit)  {break;}			 // cycle ends, game will quit to windows
+		if(start) // Game starts, first way to end cycle
+		{ 
+			start=0; 
+			break; 
+		} 
+		if(quit)   // cycle ends, game will quit to windows
+		{
+			break;
+		}                        
 
 		//user will return to main menu if credits() or instructions() is called
 		while(true)
-		{				
+		{                                
 			char mainmenukey=_getch();
-			if(mainmenukey==QUIT_CHAR) {break;}			
-		}	
+			if(mainmenukey==QUIT_CHAR) 
+			{
+				break;
+			}                        
+		}        
 	}
 }
 
@@ -416,7 +453,7 @@ void creatingPowups()
 	for (randomAccess_iterator powup = powups.begin(); powup != powups.end(); /* Empty clause so we can delete elements */)
 	{
 		powup->Coordinates.Y += powupSpeed;
-		if (powup->Coordinates.Y > WindowHeight - 1)
+		if (powup->Coordinates.Y > WindowHeight - 2)
 		{
 			powup = powups.erase(powup);
 		}
@@ -492,7 +529,7 @@ void Update()
 			}
 			break;
 		case  's':
-			if(dwarf[2].Coordinates.Y + dwarfSpeed < WindowHeight )
+			if(dwarf[2].Coordinates.Y + dwarfSpeed < (WindowHeight-1) )
 			{
 				direction.X = 0;
 				direction.Y = dwarfSpeed;
@@ -500,7 +537,7 @@ void Update()
 			else
 			{
 				direction.X = 0; 
-				direction.Y = WindowHeight - dwarf[2].Coordinates.Y - 1;
+				direction.Y = WindowHeight - 1 - dwarf[2].Coordinates.Y - 1;
 			}
 			break;
 		case 'm':
@@ -514,11 +551,6 @@ void Update()
 	{
 		return;
 	}
-	//if(direction.X == WindowWidth - dwarf[1].Coordinates.X - 1 && direction.Y == WindowHeight - dwarf[2].Coordinates.Y - 1)
-	//{
-	//	++direction.X;
-	//	++direction.Y;
-	//}
 	for (randomAccess_iterator dwarfBody = dwarf.begin(); dwarfBody != dwarf.end(); ++dwarfBody)
 	{
 		dwarfBody->Coordinates.X += direction.X;
@@ -532,13 +564,13 @@ void Update()
 	for (randomAccess_iterator rock = rocks.begin(); rock != rocks.end(); /* Empty clause so we can delete elements */)
 	{
 		rock->Coordinates.Y += rockSpeed;
-		if (rock->Coordinates.Y > WindowHeight - 1)
+		if (rock->Coordinates.Y > WindowHeight - 2)
 		{
 			rock = rocks.erase(rock);
 		}
 		else
 		{
-			++rock;	
+			++rock;        
 		}
 	}
 
@@ -546,8 +578,8 @@ void Update()
 	{
 		// Spawn a new rock at every x frames
 		int x = rand() % WindowWidth;
-		//		The original RockSymbol
-		//		rocks.push_back(GameObject(x, 0, RockSymbol));
+		//                The original RockSymbol
+		//                rocks.push_back(GameObject(x, 0, RockSymbol));
 
 		//      Rocks in defferent shapes
 		int shapeNum = rand() % 7;
@@ -615,14 +647,6 @@ void Draw()
 }
 
 void Collision();
-//void eventDispatcher(int now)
-//{
-//  if(framecounter = 10 )
-//  event
-//  if(framecounter = 3000000)
-//   event
-//   Other events
-//}
 
 // Returns the dwarf to his previous speed or shape, after powups had expired
 void dwarfPrevstatus()
@@ -704,9 +728,6 @@ int main()
 
 	consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 	srand(time(NULL));
-	//int dwarfY = WindowHeight - 2;
-	//int dwarfX = WindowWidth / 2;
-	//inGame = true; //Delete? Where is this used?//It's better to have a variable
 	while (true)
 	{
 		Update();
@@ -799,17 +820,17 @@ void InGameMenu()
 					case 'q':
 						quit=1;
 						break;
-					default :				 //preventinf a bug part 1 
+					default :                                 //preventinf a bug part 1 
 						tobreak=0;
 					}
 					if(tobreak!=0) 
 					{
 						break; //preventing a bug
-					}	
+					}        
 					else 
 					{
 						tobreak=1; //part 2
-					}		
+					}                
 				}
 			}
 		}
@@ -821,24 +842,24 @@ void InGameMenu()
 		if(quit==1 && start==0) 
 		{
 			break; //game will quit
-		}		  
+		}                  
 		if(quit==1 && start==1) 
 		{
 			break; //game will return to main menu
-		}		  
+		}                  
 
 		//user will return to main menu if instructions() is called
 		while(true)
-		{				
+		{                                
 			char ingamemainmenukey=_getch();
 			if(ingamemainmenukey=='q') 
 			{
 				break;
-			}			
+			}                        
 		}
 	}
 	if(quit==1 && start==1)
 	{
-		main();//MainMenu();	//game returns to main menu
+		main();//MainMenu();        //game returns to main menu
 	}
 }
