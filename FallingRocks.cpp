@@ -10,6 +10,15 @@
 #include "ConsoleGaming.h"
 
 #define QUIT_CHAR 'q'
+#define MENU_CHAR 'm'
+#define NEW_GAME_CHAR 'n'
+#define INSTRUCTIONS_CHAR 'i'
+#define CREDITS_CONTINUE_CHAR 'c'
+#define UP_CHAR 'w'
+#define DOWN_CHAR 's'
+#define LEFT_CHAR 'a'
+#define RIGHT_CHAR 'd'
+
 
 using namespace std;
 using namespace ConsoleColors;
@@ -29,7 +38,7 @@ int rockSpeed = 1;
 
 // Dwarf variables
 int dwarfSpeed = 3;
-int lastdwarfSpeed = 5;
+int lastdwarfSpeed = 3;
 int dwarfShape = 1 ;
 int lastDwarfShape = 1 ;
 int EnlargeX = WindowWidth / 2;
@@ -43,10 +52,10 @@ int stoneCounter = 0;
 unsigned char colour = 0xF;
 
 //Variables to help menu navigation,start and quit game
-bool quit=0;
-bool start=0;
-bool tobreak=1;
-bool toprint=0;
+bool quit=false;
+bool start=false;
+bool tobreak=true;
+bool toprint=false;
 
 // Game variables
 unsigned long sleepDuration = 200;
@@ -62,17 +71,18 @@ bool isShrinked = false;
 
 //Level variables
 int lvlCount = 1 ; 
+int score = 0 ; 
 
 //dwarf,rocks,powups vectors
 vector<GameObject> dwarf;
 vector<GameObject> rocks;
 vector<GameObject> powups;
 
-//Stack for saving the dwarfs vectors
 unsigned int frameCounter = 0;
 unsigned int copyofframeCounter = 0;
 unsigned int rockSpawnInterval = 10;
 
+//Prints Character selection menu
 void CharacterSelection()
 {
 	string line;
@@ -81,12 +91,23 @@ void CharacterSelection()
 	myfile.seekg(ios::beg);
 	while (getline (myfile,line))
 	{
-		if(line=="marker6") {toprint=0; break;} // cycle ends whene marker6 is reached
-		if(toprint==1) {cout<<line<<endl;}
-		if(line=="marker5") {toprint=1;} // Prints everyline below marker5
+		if(line=="marker6") 
+		{
+			toprint=false;
+			break;
+		} 
+		if(toprint==true) 
+		{
+			cout<<line<<endl;
+		}
+		if(line=="marker5") 
+		{
+			toprint=true;
+		} 
 	}
 }
 
+//Prints charater solor selection menu
 void CharacterColorSelection()
 {
 	string line;
@@ -95,49 +116,46 @@ void CharacterColorSelection()
 	myfile.seekg(ios::beg);
 	while (getline (myfile,line))
 	{
-		if(line=="marker7") {toprint=0; break;} // cycle ends whene marker7 is reached
-		if(toprint==1) {cout<<line<<endl;}
-		if(line=="marker6") {toprint=1;} // Prints everyline below marker6
+		if(line=="marker7") 
+		{
+			toprint=false; 
+			break;
+		} 
+		if(toprint) 
+		{
+			cout<<line<<endl;
+		}
+		if(line=="marker6") 
+		{
+			toprint=true;
+		} 
 	}
 }
 
+//Resets important global variables on starting a new game 
 void Reset()
 {
-	// Dwarf variables
 	dwarfSpeed = 5;
 	lastdwarfSpeed = 5 ;
 	dwarfShape = 1 ;
 	lastDwarfShape = 1 ;
 	EnlargeX = WindowWidth / 2;
 	EnlargeY = WindowHeight - 2;
-
-	//Counts the number of the stones
 	stoneCounter = 0;
-
-	//Color variable
 	colour = 0xF;
-
-	// Game variables
 	sleepDuration = 200;
-
-	//Collision detection
-	//incompetable with void Collision had to remove it
-
-	//If the dwarf is shrinked
 	isShrinked = false;
-
-	//Level variables
 	lvlCount = 1 ; 
-
-	//Counts frames;
 	frameCounter = 0;
 	copyofframeCounter = 0;
 	rockSpawnInterval = 10;
+	score=0;
 	dwarf.clear();
 	rocks.clear();
 	powups.clear();
 }
 
+//Paints the dwarf in the chosen color
 void ChangeColor()
 {
 	for (randomAccess_iterator dwarfBody = dwarf.begin(); dwarfBody != dwarf.end(); ++dwarfBody)
@@ -156,8 +174,8 @@ void ChangeColor()
 	}
 }
 
-// Chosing dwarf and returing the lastdwarf after shrink
-void LastDwarf()
+// Builds/Rebuilds dwarf shape
+void UpdateDwarf()
 {  
 	int dwarfY = EnlargeY;  
 	int dwarfX = EnlargeX;
@@ -171,7 +189,6 @@ void LastDwarf()
 	char dwarfSymbol7 = '/';
 	char dwarfSymbol8 = '-';
 	char dwarfSymbol9 = '\\';
-	//   int  dwarfX = dwarf->Coordinates.X;
 	if(isShrinked)
 	{
 		lastDwarfShape=0;
@@ -259,181 +276,217 @@ void LastDwarf()
 	ChangeColor();
 }
 
+//Prints the credits menu
 void Credits()
 {
-	// Prints the Credits from "main menu.text". Markers serve as CheckPionts in the text file
 	string line;
 	ifstream myfile("main menu.txt");
 	system("CLS");
 	myfile.seekg(ios::beg);
 	while (getline (myfile,line))
 	{
-		if(line=="marker3") {toprint=0; break;} // cycle ends whene marker3 is reached
-		if(toprint==1) {cout<<line<<endl;}
-		if(line=="marker2") {toprint=1;} // Prints everyline below marker2
+		if(line=="marker3") 
+		{
+			toprint=false; 
+			break;
+		} 
+		if(toprint) 
+		{
+			cout<<line<<endl;
+		}
+		if(line=="marker2") 
+		{
+			toprint=true;
+		}
 	}
-
 }
 
+//Prints the instructions menu
 void Instructions()
 {
-	// Prints the Credits from "main menu.text". Markers serve as CheckPionts in the text file
 	string line;
 	ifstream myfile("main menu.txt");
 	system("CLS");
 	myfile.seekg(ios::beg);
 	while (getline (myfile,line))
 	{
-		if(line=="marker4") {toprint=0; break;} // cycle ends whene marker4 from the text  file is reached
-		if(toprint==1) {cout<<line<<endl;}
-		if(line=="marker3") {toprint=1;}        // Prints everyline below marker3 in the text  file
-	}
-}
-
-void MainMenu()
-{
-	//PlaySound(TEXT("secret.wav"), NULL, SND_FILENAME|SND_ASYNC);
-	//reseting Global variables if MainMenu() is called from InGameMenu()
-	start=0;
-	quit=0;
-	while(true)
-	{
-
-		// Prints the MainMenu from "main menu.text". Markers serve as CheckPionts in the text file
-		system("CLS");
-		string line;
-		ifstream myfile("main menu.txt");
-		if (myfile.is_open())
+		if(line=="marker4") 
 		{
-			while ( getline (myfile,line) )
-			{
-				if(line=="marker1") {break;} // cycle ends whene marker1 from the text  file is reached
-				cout << line << endl;
-			}
-			//Printing ends
-
-			//Program waits for the user to press one of the following keys
-			while(true)
-			{
-				if(_kbhit())
-				{                        
-					char mainmenukey=_getch();
-					switch (mainmenukey)
-					{
-					case 'n':
-						//Reset();
-						// Here we have to put function for the five options for  dwarfShape 
-						CharacterSelection();
-						while(true)
-						{
-							if(_kbhit)
-							{
-								while(true)
-								{
-									char model;
-									model=_getch();
-
-									if(model>48 && model<54)
-									{
-										dwarfShape=model-48;
-										break;
-									}
-								}
-							}
-							break;
-						}
-						// Here we have to put the function for eight options for  dwarfColor in function
-						CharacterColorSelection();
-						while(true)
-						{
-							if(_kbhit)
-							{
-								while(true)
-								{
-									char color;
-									color=_getch();
-
-									if(color>48 && color<57)
-									{
-										dwarfColor=color-48;
-										break;
-									}
-								}
-							}
-							break;
-						}
-						lastDwarfShape = dwarfShape;
-						start=1;
-						LastDwarf();
-						break;
-					case 'c':
-						Credits();
-						break;
-					case 'i':
-						Instructions();
-						break;
-					case 'q':
-						quit=true;
-						break;
-					default :              //preventinf a bug part 1   
-						tobreak=false;
-					}
-					if(tobreak) 
-					{
-						break;
-					}   //preventing a bug
-					else 
-					{
-						tobreak=1;
-					}                  //part 2
-				}
-			}
-		}
-
-		if(start) // Game starts, first way to end cycle
-		{ 
-			start=0; 
-			break; 
-		} 
-		if(quit)   // cycle ends, game will quit to windows
-		{
+			toprint=false; 
 			break;
-		}                        
-
-		//user will return to main menu if credits() or instructions() is called
-		while(true)
-		{                                
-			char mainmenukey=_getch();
-			if(mainmenukey==QUIT_CHAR) 
-			{
-				break;
-			}                        
+		}
+		if(toprint) 
+		{
+			cout<<line<<endl;
+		}
+		if(line=="marker3") 
+		{
+			toprint=true;
 		}        
 	}
 }
 
+//Waiting for the rigth key to be pressed in order to choose character
+void KeyToChooseModel()
+{
+	while(true)
+	{
+		if(_kbhit)
+		{
+			while(true)
+			{
+				char model;
+				model=_getch();
+
+				if(model>48 && model<54)
+				{
+					dwarfShape=model-48;
+					break;
+				}
+			}
+		}
+		break;
+	}
+}
+
+//Waiting for the rigth key to be pressed in order to choose character color
+void KeyToChooseColor()
+{
+	while(true)
+	{
+		if(_kbhit)
+		{
+			while(true)
+			{
+				char color;
+				color=_getch();
+
+				if(color>48 && color<57)
+				{
+					dwarfColor=color-48;
+					break;
+				}
+			}
+		}
+		break;
+	}
+}
+
+//Picks dwarf properties
+void PicksDwarfProperties()
+{	
+	CharacterSelection();
+	KeyToChooseModel();
+
+	CharacterColorSelection();
+	KeyToChooseColor();
+
+	lastDwarfShape = dwarfShape;
+	start=true;
+	UpdateDwarf();
+}
+
+//User will return to  menu if secondary menu is called
+void ReturnToMenu();
+
+//Program waits for the user to press one of the following keys
+void MainMenuKey()
+{
+	while(true)
+	{
+		if(_kbhit())
+		{                        
+			char mainmenukey=_getch();
+			switch (mainmenukey)
+			{
+			case NEW_GAME_CHAR:
+				PicksDwarfProperties();
+				break;
+			case CREDITS_CONTINUE_CHAR:
+				Credits();
+				break;
+			case INSTRUCTIONS_CHAR:
+				Instructions();
+				break;
+			case QUIT_CHAR:
+				quit=true;
+				break;
+			default :         
+				tobreak=false;
+			}
+			if(tobreak) 
+			{
+				break;
+			}   
+			else 
+			{
+				tobreak=true;
+			}              
+		}
+	}
+}
+
+// Prints the MainMenu from "main menu.text". Markers serve as CheckPionts in the text file
+void PrintmainMenu()
+{
+	system("CLS");
+	string line;
+	ifstream myfile("main menu.txt");
+	if (myfile.is_open())
+	{
+		while ( getline (myfile,line) )
+		{
+			if(line=="marker1") 
+			{
+				break;
+			}
+			cout << line << endl;
+		}
+	}
+}
+
+//MainMenu  manipulation
+void MainMenu()
+{
+	//PlaySound(TEXT("secret.wav"), NULL, SND_FILENAME|SND_ASYNC);
+	start=false;
+	quit=false;
+	while(true)
+	{
+		PrintmainMenu();	
+		MainMenuKey();
+		if(start)
+		{ 
+			start=false; 
+			break; 
+		} 
+		if(quit) 
+		{
+			break;
+		}                        
+		ReturnToMenu();  
+	}
+}
 
 // Writes on the screen the level on which is the game
-void outputofchangeLvl()
+void OutputofchangeLvl()
 {
 	system("CLS");
 	cout << "Level " << lvlCount << endl;
 	Sleep(2000);
 }
+
 // Change Level
-
-
-
-void changeLvl()
+void ChangeLvl()
 {
 	if (frameCounter == 0)
 	{
-		outputofchangeLvl();
+		OutputofchangeLvl();
 	}
 	if (frameCounter % 100 == 0 && frameCounter!=0)
 	{
 		lvlCount++;
-		outputofchangeLvl();
+		OutputofchangeLvl();
 		if (sleepDuration>10)
 		{
 			sleepDuration-=10;
@@ -442,13 +495,15 @@ void changeLvl()
 		{
 			rockSpawnInterval--;
 		}
-		if (dwarfSpeed > 3)
+		if (dwarfSpeed > 1 && lvlCount%5 == 0)
 		{
 			dwarfSpeed--;
 		}
 	}
 }
-void creatingPowups()
+
+//Creates and deletes powerups
+void CreatingPowups()
 {
 	for (randomAccess_iterator powup = powups.begin(); powup != powups.end(); /* Empty clause so we can delete elements */)
 	{
@@ -463,28 +518,29 @@ void creatingPowups()
 		}
 	}
 }
-void addingPowupWithDifShapes()
+
+//Creates and deletes rocks
+void CreatingRocks()
 {
-	if (frameCounter % 50 == 0 && frameCounter != 0)
+	for (randomAccess_iterator rock = rocks.begin(); rock != rocks.end(); /* Empty clause so we can delete elements */)
 	{
-		// Spawn a new powup at every x frames
-		int x = rand() % WindowWidth;
-		if (frameCounter % 100 == 0)
+		rock->Coordinates.Y += rockSpeed;
+		if (rock->Coordinates.Y > WindowHeight - 2)
 		{
-			powups.push_back(GameObject(x, 0, PowupSymbol1));
-			PowupSymbol = PowupSymbol1;
+			rock = rocks.erase(rock);
 		}
 		else
 		{
-			powups.push_back(GameObject(x, 0, PowupSymbol2));
-			PowupSymbol = PowupSymbol2;
+			++rock;        
 		}
 	}
 }
 
+//InGameMenu manipulation
 void InGameMenu();
 
-void Update()
+//Regulates dwarf movement+shows menu, updates dwarf position
+void UpdateDwarfCOORDS()
 {
 	COORD direction = { 0, 0 };
 	if (_kbhit())
@@ -492,7 +548,7 @@ void Update()
 		char key = getch();
 		switch(key)
 		{
-		case 'a':
+		case LEFT_CHAR:
 			if(dwarf[0].Coordinates.X - dwarfSpeed > 0 )
 			{
 				direction.X = - dwarfSpeed;
@@ -504,7 +560,7 @@ void Update()
 				direction.Y = 0 ;
 			}
 			break ;
-		case 'w':
+		case UP_CHAR:
 			if(dwarf[3].Coordinates.Y - dwarfSpeed > 0 )
 			{
 				direction.X = 0 ;
@@ -516,7 +572,7 @@ void Update()
 				direction.Y = -dwarf[3].Coordinates.Y;
 			}
 			break;
-		case  'd':
+		case  RIGHT_CHAR:
 			if(dwarf[1].Coordinates.X + dwarfSpeed < WindowWidth )
 			{
 				direction.X = dwarfSpeed ;
@@ -528,7 +584,7 @@ void Update()
 				direction.Y = 0 ; 
 			}
 			break;
-		case  's':
+		case  DOWN_CHAR:
 			if(dwarf[2].Coordinates.Y + dwarfSpeed < (WindowHeight-1) )
 			{
 				direction.X = 0;
@@ -540,7 +596,7 @@ void Update()
 				direction.Y = WindowHeight - 1 - dwarf[2].Coordinates.Y - 1;
 			}
 			break;
-		case 'm':
+		case MENU_CHAR:
 			{
 				InGameMenu();
 			}
@@ -556,32 +612,37 @@ void Update()
 		dwarfBody->Coordinates.X += direction.X;
 		dwarfBody->Coordinates.Y += direction.Y;
 	}
-	ChangeColor();
 	EnlargeX=dwarf[4].Coordinates.X;
 	EnlargeY=dwarf[4].Coordinates.Y;
+}
 
-	// Update the position of all rocks. Remove any rock that goes outside the window
-	for (randomAccess_iterator rock = rocks.begin(); rock != rocks.end(); /* Empty clause so we can delete elements */)
+// Adds new elements to powup vector
+void AddingPowupWithDifShapes()
+{
+	if (frameCounter % 50 == 0 && frameCounter != 0)
 	{
-		rock->Coordinates.Y += rockSpeed;
-		if (rock->Coordinates.Y > WindowHeight - 2)
+		int x = rand() % WindowWidth;
+		if (frameCounter % 100 == 0)
 		{
-			rock = rocks.erase(rock);
+			powups.push_back(GameObject(x, 0, PowupSymbol1));
+			PowupSymbol = PowupSymbol1;
 		}
 		else
 		{
-			++rock;        
+			powups.push_back(GameObject(x, 0, PowupSymbol2));
+			PowupSymbol = PowupSymbol2;
 		}
 	}
+}
 
+//Randomises rock shape and color
+void RocksShapeAndColor()
+{
 	if (frameCounter % rockSpawnInterval == 0)
 	{
-		// Spawn a new rock at every x frames
 		int x = rand() % WindowWidth;
-		//                The original RockSymbol
-		//                rocks.push_back(GameObject(x, 0, RockSymbol));
 
-		//      Rocks in defferent shapes
+		//Rocks in defferent shapes
 		int shapeNum = rand() % 7;
 		switch (shapeNum)
 		{
@@ -599,8 +660,6 @@ void Update()
 		if (stoneCounter == 2) rocks[0].Color = colour;
 
 		//It makes stones colorful
-
-		//[BUG] The first stone changes it's color after the second one appears - partly resolved
 		randomAccess_iterator rock = rocks.end() - 1;
 		switch (shapeNum)
 		{
@@ -614,21 +673,33 @@ void Update()
 		}
 		colour = rock->Color;
 	}
-	//  Creating Power Ups similar to the rock Object
-	creatingPowups();
-	// Adding powups with shape F or S 
-	addingPowupWithDifShapes();
-	// Change Level
-	changeLvl();
+}
+
+//Updates everything
+void Update()
+{
+	
+	UpdateDwarfCOORDS();
+	ChangeColor();
+	
+	CreatingRocks();
+	RocksShapeAndColor();
+ 
+	CreatingPowups();
+	AddingPowupWithDifShapes();
+
+	if(quit)
+	{
+		return;
+	}
+	ChangeLvl();
 	frameCounter++;
 }
 
-
-
+//Prints the objects on screen
 void Draw()
 {
 	ClearScreen(consoleHandle);
-	//   if(!Collision)
 	for (const_iterator dwarfBody = dwarf.begin(); dwarfBody != dwarf.end(); ++dwarfBody)
 	{
 		dwarfBody->Draw(consoleHandle);
@@ -638,7 +709,6 @@ void Draw()
 	{
 		rock->Draw(consoleHandle); 
 	}
-	// Drawing the PowUps
 	for(const_iterator powup = powups.begin();powup!=powups.end();++powup)
 	{
 		powup->Draw(consoleHandle);
@@ -646,10 +716,14 @@ void Draw()
 
 }
 
+//After a rock hits you
+void AfterCollision();
+
+//Checks for collision with rock
 void Collision();
 
 // Returns the dwarf to his previous speed or shape, after powups had expired
-void dwarfPrevstatus()
+void DwarfPrevstatus()
 {
 	if(frameCounter == (copyofframeCounter+30))
 	{
@@ -661,38 +735,50 @@ void dwarfPrevstatus()
 		{
 			dwarf.clear();
 			isShrinked = false;
-			LastDwarf();
-
+			UpdateDwarf();
 		}
 	}
 }
-// Change what happens on collision with powup
-void onPowupsCollision()
+
+//Changes dwarfspeed
+void OutputOfFasterBonus()
+{
+	dwarfSpeed = 13 ;
+	system("CLS");
+	cout<<"Faster"<<endl;
+	Sleep(2000);
+}
+
+//Changes dwarfShape
+void OutputOfShrinkBonus()
+{
+	isShrinked = true;
+	system("CLS");
+	cout<<"Shrink"<<endl;
+	Sleep(2000);
+	dwarf.clear();
+	UpdateDwarf();
+}
+
+//Checks the bonus, changes shape or speed
+void OnPowupsCollision() 
 {
 	copyofframeCounter = frameCounter;
+
 	if( PowupSymbol == PowupSymbol1)
 	{
-		dwarfSpeed = 13 ;
-		system("CLS");
-		cout<<"Faster"<<endl;
-		Sleep(2000);
+		OutputOfFasterBonus(); 
 	}
 	if( PowupSymbol == PowupSymbol2 && !isShrinked)
 	{
-		isShrinked = true;
-		system("CLS");
-		cout<<"Shrink"<<endl;
-		Sleep(2000);
-		dwarf.clear();
-		LastDwarf();
+		OutputOfShrinkBonus();
 	}
-
 }
+
 // Check if the dwarf has catch a powup
 void PowUpCollsion()
 {
-
-	dwarfPrevstatus();
+	DwarfPrevstatus();
 	for( const_iterator dwarfBody = dwarf.begin(); dwarfBody!=dwarf.end(); ++dwarfBody)
 	{
 		int dwarfX = dwarfBody->Coordinates.X;
@@ -703,7 +789,8 @@ void PowUpCollsion()
 			int powupY= powup->Coordinates.Y;
 			if( dwarfX==powupX && dwarfY==powupY)
 			{
-				onPowupsCollision();
+				score +=75;
+				OnPowupsCollision();
 				if(!powups.empty())
 				{
 					powups.erase(powup);
@@ -718,34 +805,130 @@ void PowUpCollsion()
 	}
 }
 
+//Program waits for the user to press one of the following keys
+void InGameMenuKey();
+
+// Prints the InGameMenu from "main menu.text". Markers serve as CheckPionts in the text file
+void PrintInGameMenu();
+
+//Return to InGAmeMenu from secondary menu
+void ReturnToInGameMenu();
+
 int main()
 {
 	MainMenu();
-	if(quit==1) 
+	if(quit) 
 	{
 		return 0;
 	}
-
 	consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 	srand(time(NULL));
 	while (true)
 	{
 		Update();
-		if(quit == 1) 
+		if(quit) 
 		{
 			break;
 		}
 		Collision();
-		PowUpCollsion();
-		Draw();
-		Sleep(sleepDuration);
+		PowUpCollsion(); 
+		Draw(); 
+		Sleep(sleepDuration); 
 	}
 	return 0;
 }
 
+void AfterCollision()
+{ 
+	score=stoneCounter * 15 + score; 
+	system("CLS");
+	cout<<"Good Game Well Played"<<endl;
+	cout<<"Your score is "<<score<<endl;
+	Sleep(2000);
+	Reset();
+	main();
+}
+
+void PrintInGameMenu()
+{
+	system("CLS");
+	string line;
+	ifstream myfile("main menu.txt");
+	if (myfile.is_open())
+	{
+		while(getline(myfile,line))
+		{
+			if(line=="marker5") 
+			{
+				toprint=false;
+				break;
+			}
+			if(toprint) 
+			{
+				cout<<line<<endl;
+			}
+			if(line=="marker4") 
+			{
+				toprint=true;
+			}
+		}
+	}
+}
+
+void InGameMenuKey()
+{
+	while(true)
+	{
+		if(_kbhit())
+		{
+
+			char mainmenukey=_getch();
+			switch (mainmenukey)
+			{
+			case CREDITS_CONTINUE_CHAR:
+				start=true;
+				break;
+			case INSTRUCTIONS_CHAR:
+				Instructions();
+				break;
+			case MENU_CHAR:
+				Reset();
+				quit=true;
+				start=true;
+				break;
+			case QUIT_CHAR:
+				quit=true;
+				break;
+			default :                               
+				tobreak=false;
+			}
+			if(tobreak) 
+			{
+				break; 
+			}        
+			else 
+			{
+				tobreak=true;
+			}                
+		}
+	}
+}
+
+void ReturnToMenu()
+{
+	while(true)
+	{                                
+		char ingamemainmenukey=_getch();
+		if(ingamemainmenukey=='q') 
+		{
+			break;
+		}                        
+	}
+}
+
 void Collision()
 {
-	//Checks for elemetns with matching coordintaes from the dwarf and rock vector
+	
 	for (const_iterator dwarfBody = dwarf.cbegin(); dwarfBody != dwarf.cend(); ++dwarfBody)
 	{
 		int testdwarfX=dwarfBody->Coordinates.X;
@@ -756,110 +939,41 @@ void Collision()
 			int testrockY=rock->Coordinates.Y;
 			if(testdwarfX==testrockX && testdwarfY==testrockY)
 			{
-				system("CLS");
-				cout<<"GG WP"<<endl; 
-				Sleep(2000);
-				Reset();
-				main();
-				if(quit) return;
+				AfterCollision();
+				if(quit) 
+				{
+					return;
+				}
 			}
 		}
 	}
-}
+}  
 
 void InGameMenu()
 {
 	//PlaySound(TEXT("secret.wav"), NULL, SND_FILENAME|SND_ASYNC);
 	while(true)
 	{
+		PrintInGameMenu();
+		InGameMenuKey();
 
-		// Prints the MainMenu from "main menu.text". Markers serve as CheckPionts in the text file
-		system("CLS");
-		string line;
-		ifstream myfile("main menu.txt");
-		if (myfile.is_open())
+		if(start==true && quit==false) 
 		{
-			while(getline(myfile,line))
-			{
-				if(line=="marker5") 
-				{
-					toprint=0;  // cycle ends whene marker5 from the text  file is reached
-					break;
-				}
-				if(toprint==1) 
-				{
-					cout<<line<<endl;
-				}
-				if(line=="marker4") 
-				{
-					toprint=1;
-				}
-			}
-			//Printing ends
-
-			//Program waits for the user to press one of the following keys
-			while(true)
-			{
-				if(_kbhit())
-				{
-
-					char mainmenukey=_getch();
-					switch (mainmenukey)
-					{
-					case 'c':
-						start=1;
-						break;
-					case 'i':
-						Instructions();
-						break;
-					case 'm':
-						Reset();
-						quit=1;
-						start=1;
-						break;
-					case 'q':
-						quit=1;
-						break;
-					default :                                 //preventinf a bug part 1 
-						tobreak=0;
-					}
-					if(tobreak!=0) 
-					{
-						break; //preventing a bug
-					}        
-					else 
-					{
-						tobreak=1; //part 2
-					}                
-				}
-			}
-		}
-		if(start==1 && quit==0) 
-		{
-			start=0; //game will contunie
+			start=false;
 			break;
 		} 
-		if(quit==1 && start==0) 
+		if(quit==true && start==false) 
 		{
-			break; //game will quit
+			break; 
 		}                  
-		if(quit==1 && start==1) 
+		if(quit==true && start==true) 
 		{
-			break; //game will return to main menu
+			break; 
 		}                  
-
-		//user will return to main menu if instructions() is called
-		while(true)
-		{                                
-			char ingamemainmenukey=_getch();
-			if(ingamemainmenukey=='q') 
-			{
-				break;
-			}                        
-		}
+		ReturnToMenu();		
 	}
-	if(quit==1 && start==1)
+	if(quit==true && start==true)
 	{
-		main();//MainMenu();        //game returns to main menu
+		main();
 	}
 }
