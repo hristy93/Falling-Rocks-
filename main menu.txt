@@ -1,28 +1,27 @@
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  
+
     _____     _ _ _               ____            _        
    |  ___|_ _| | (_)_ __   __ _  |  _ \ ___   ___| | _____ 
    | |_ / _` | | | | '_ \ / _` | | |_) / _ \ / __| |/ / __|
    |  _| (_| | | | | | | | (_| | |  _ < (_) | (__|   <\__ \
    |_|  \__,_|_|_|_|_| |_|\__, | |_| \_\___/ \___|_|\_\___/
-                          |___/             extream edition
-	
-         	 |	[N]ew Game	|
- 	 	 |			| 
-  	 	 |	Load Game	|            #
-	 	 |			|
-  	  	 |	Options		|                 .
-   	  	 |			|           #    o
-          	 |	Hall Of Fame	|               o
-         	 |			|     	   #   0
-         	 |	[I]nstructions	|           # O
-         	 |			|            N
-         	 |	[C]redits	|          \O/
-	 	 |			|           |	
-	  	 |	[Q]uit game	|          / \
+                          |___/             extreme edition
+        
+                    |     [N]ew Game        |
+                    |                       | 
+                    |      Load Game        |            #
+                    |                       |
+                    |      Options          |                 .
+                    |                       |           #    o
+                    |      Hall Of Fame     |               o
+                    |                       |          #   0
+                    |     [I]nstructions    |           # O
+                    |                       |            N
+                    |     [C]redits         |          \O/
+                    |                       |           |        
+                    |     [Q]uit game       |          / \
 
-	press the letter in the [] to select your choise
-		
+        press the letter in the [] to select your choise
+                
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 marker1
 
@@ -30,11 +29,11 @@ this shouldnt display
 
 marker2
 
-	Lead programers, level&audio desiners
-		Valeria Mincheva
-		Preslav Semov
-		Hristian Dimitrov
-		Stanimir Mitev
+        Lead programers, level&audio desiners
+                Valeria Mincheva
+                Preslav Semov
+                Hristian Dimitrov
+                Stanimir Mitev
 
 
 
@@ -54,59 +53,76 @@ Press [m] to go to the menu while in game
 Press [q] key to return to main menu.
 
 marker4
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     _____     _ _ _               ____            _        
    |  ___|_ _| | (_)_ __   __ _  |  _ \ ___   ___| | _____ 
    | |_ / _` | | | | '_ \ / _` | | |_) / _ \ / __| |/ / __|
    |  _| (_| | | | | | | | (_| | |  _ < (_) | (__|   <\__ \
    |_|  \__,_|_|_|_|_| |_|\__, | |_| \_\___/ \___|_|\_\___/
-                          |___/             extream edition
-	
-        	  |	[C]ontinue Game	|
- 	 	  |			| 
-  	 	  |	Save Game	|
-		  |			|
-  		  |	Options		|
-   		  |			|   
-         	  |	Hall Of Fame	|    
-         	  |			|     
-         	  |	[I]nstructions	|      
-          	  |			|       
-          	  |	[M]ain Menu	|        
-	  	  |			|         
-	  	  |	[Q]uit Game	|  
+                          |___/             extreme edition
         
-	press the letter in the [] to select your choise
-		
+                    |     [C]ontinue Game  |
+                    |                      | 
+                    |      Save Game       |
+                    |                      |
+                    |      Options         |
+                    |                      |   
+                    |      Hall Of Fame    |    
+                    |                      |     
+                    |     [I]nstructions   |      
+                    |                      |       
+                    |     [M]ain Menu      |        
+                    |                      |         
+                    |     [Q]uit Game      |  
+        
+        press the letter in the [] to select your choise
+                
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 marker5
+====================================================================================================
+                     Please choose one of the following dwarfs,to play with!
+    #       0       0        0         #
+   -|-     ~|~    ~~|~~      *         |
+    |       |       |      ^^*^^     --|--
+   / \     ^ ^      |        *         |
+                  ^^ ^^    // \\     // \\
+                                           
+    1       2       3        4         5
+press any key from 1 to 5 to select your character!
+====================================================================================================
+marker6
+============================================
+Please the corresponding choose one of the following colors:
+Blue(1) Green(2) Red(3)  Yellow(4)  Purple(5)  Cyan(6)   White(8)
+
+Enjoy!
+marker7
 ######################################################################
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#		PUT POLISHED STUFF in a box like this	             #
-#			when done replace '#' with ' '		     #
-#								     #
-#			 Width X Heigth-1		     	     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-#								     #
-######################################################################
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                PUT POLISHED STUFF in a box like this                #
+#                        when done replace '#' with ' '               #
+#                                                                     #
+#                         Width X Heigth-1                            #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#                                                                     #
+#######################################################################
