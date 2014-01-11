@@ -19,6 +19,8 @@
 #define LEFT_CHAR 'a'
 #define RIGHT_CHAR 'd'
 #define FAME_CHAR 'h'
+#define SAVE_CHAR 's'
+#define LOAD_CHAR 'l'
 
 
 using namespace std;
@@ -401,7 +403,30 @@ void HallOfFame()
 	system("CLS");
     cout<<"Your highscore is "<<highScore<<endl;
 }
-
+// Loads Save Game
+void LoadGame()
+{
+	ifstream loadFile("Safefile1.txt");
+	loadFile>>dwarfSpeed;
+	loadFile>>lastDwarfSpeed;
+    loadFile>>dwarfShape;
+	loadFile>>lastDwarfShape;
+	loadFile>>enlargeX;
+	loadFile>>enlargeY;
+	loadFile>>stoneCounter;
+	loadFile>>sleepDuration;
+	loadFile>>isShrinked;
+	loadFile>>lvlCount;
+	loadFile>>frameCounter;
+	loadFile>>copyOfFrameCounter;
+	loadFile>>rockSpawnInterval;
+	loadFile>>score;
+	loadFile>>dwarfColor;
+	lastDwarfShape=dwarfShape;
+    loadFile.close();
+	start = true ;
+	UpdateDwarf();
+}
 //Program waits for the user to press one of the following keys
 void MainMenuKey()
 {
@@ -415,6 +440,9 @@ void MainMenuKey()
 			case NEW_GAME_CHAR:
 				PicksDwarfProperties();
 				break;
+			case LOAD_CHAR:
+				 LoadGame();
+				 break;
 			case FAME_CHAR:
 				 HallOfFame();
 				 break;
@@ -910,6 +938,7 @@ void SaveGame()
 	saveFile<<copyOfFrameCounter<<endl;
 	saveFile<<rockSpawnInterval<<endl;
 	saveFile<<score<<endl;
+	saveFile<<dwarfColor<<endl;
     saveFile.close();
 	system("CLS");
 	cout<<"Your game has been saved"<<endl;
@@ -929,7 +958,7 @@ void InGameMenuKey()
 			case CREDITS_CONTINUE_CHAR:
 				start = true;
 				break;
-			case 's':
+			case SAVE_CHAR:
 				SaveGame();
 				break;
 			case FAME_CHAR:
