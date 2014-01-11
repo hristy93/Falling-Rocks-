@@ -25,7 +25,7 @@ ANYTIME.
  - gaining speed
  - the ability to shoot down rocks
 10.[BONUS]Implement an Audio system using either cout << '\a'; or the Windows function Beep (google it)
-11.[BONUS]Implement save / load functionality. Use file streams (google them)
+11.[BONUS]Implement save / load functionality. Use file streams (google them) Stan & Presko DONE
 
 
  	 
