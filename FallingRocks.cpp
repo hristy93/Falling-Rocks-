@@ -21,6 +21,7 @@
 #define FAME_CHAR 'h'
 #define SAVE_CHAR 's'
 #define LOAD_CHAR 'l'
+#define OPTIONS_CHAR 'o'
 
 
 using namespace std;
@@ -71,6 +72,9 @@ int  powupSpeed = 1;
 
 //If the dwarf is shrinked
 bool isShrinked = false;
+
+//To use the arrow keys
+bool useArrowKeys = false;
 
 //Level variables
 int lvlCount = 1;
@@ -587,65 +591,137 @@ void InGameMenu();
 void UpdateDwarfCOORDS()
 {
 	COORD direction = { 0, 0 };
-	if (_kbhit())
+	char key;
+	if (!useArrowKeys)
 	{
-		char key = getch();
-		switch (key)
+		if (_kbhit())
 		{
-		case LEFT_CHAR:
-			if (dwarf[0].Coordinates.X - dwarfSpeed > 0)
+			key = _getch();
+			switch (key)
 			{
-				direction.X = -dwarfSpeed;
-				direction.Y = 0;
-			}
-			else
-			{
-				direction.X = -dwarf[0].Coordinates.X;
-				direction.Y = 0;
-			}
-			break;
-		case UP_CHAR:
-			if (dwarf[3].Coordinates.Y - dwarfSpeed > 0)
-			{
-				direction.X = 0;
-				direction.Y = -dwarfSpeed;
-			}
-			else
-			{
-				direction.X = 0;
-				direction.Y = -dwarf[3].Coordinates.Y;
-			}
-			break;
-		case  RIGHT_CHAR:
-			if (dwarf[1].Coordinates.X + dwarfSpeed < windowWidth)
-			{
-				direction.X = dwarfSpeed;
-				direction.Y = 0;
-			}
-			else
-			{
-				direction.X = windowWidth - dwarf[1].Coordinates.X - 1;
-				direction.Y = 0;
-			}
-			break;
-		case  DOWN_CHAR:
-			if (dwarf[2].Coordinates.Y + dwarfSpeed < (windowHeight - 1))
-			{
-				direction.X = 0;
-				direction.Y = dwarfSpeed;
-			}
-			else
-			{
-				direction.X = 0;
-				direction.Y = windowHeight - 1 - dwarf[2].Coordinates.Y - 1;
-			}
-			break;
-		case MENU_CHAR:
-		    {
+			case LEFT_CHAR:
+				if (dwarf[0].Coordinates.X - dwarfSpeed > 0)
+				{
+					direction.X = -dwarfSpeed;
+					direction.Y = 0;
+				}
+				else
+				{
+					direction.X = -dwarf[0].Coordinates.X;
+					direction.Y = 0;
+				}
+				break;
+			case UP_CHAR:
+				if (dwarf[3].Coordinates.Y - dwarfSpeed > 0)
+				{
+					direction.X = 0;
+					direction.Y = -dwarfSpeed;
+				}
+				else
+				{
+					direction.X = 0;
+					direction.Y = -dwarf[3].Coordinates.Y;
+				}
+				break;
+			case  RIGHT_CHAR:
+				if (dwarf[1].Coordinates.X + dwarfSpeed < windowWidth)
+				{
+					direction.X = dwarfSpeed;
+					direction.Y = 0;
+				}
+				else
+				{
+					direction.X = windowWidth - dwarf[1].Coordinates.X - 1;
+					direction.Y = 0;
+				}
+				break;
+			case  DOWN_CHAR:
+				if (dwarf[2].Coordinates.Y + dwarfSpeed < (windowHeight - 1))
+				{
+					direction.X = 0;
+					direction.Y = dwarfSpeed;
+				}
+				else
+				{
+					direction.X = 0;
+					direction.Y = windowHeight - 1 - dwarf[2].Coordinates.Y - 1;
+				}
+				break;
+			case MENU_CHAR:
 				InGameMenu();
-		    }
-			break;
-		};
+				break;
+			};
+		}
+	}
+	else
+	{
+		unsigned char key;
+		if (_kbhit())
+		{
+			system("CLS");
+			key = _getch();
+			//for detect the function\arrow keys 
+			//we must call the getch() again
+			//testing if a is '0' or '0xE0'
+			if (key == 0 || key == 0xE0) key = _getch();
+			switch (key)
+			{
+			case 72: //Up
+				if (dwarf[3].Coordinates.Y - dwarfSpeed > 0)
+				{
+					direction.X = 0;
+					direction.Y = -dwarfSpeed;
+				}
+				else
+				{
+					direction.X = 0;
+					direction.Y = -dwarf[3].Coordinates.Y;
+				}
+				break;
+
+			case 80: //Down
+				if (dwarf[2].Coordinates.Y + dwarfSpeed < (windowHeight - 1))
+				{
+					direction.X = 0;
+					direction.Y = dwarfSpeed;
+				}
+				else
+				{
+					direction.X = 0;
+					direction.Y = windowHeight - 1 - dwarf[2].Coordinates.Y - 1;
+				}
+				break;
+
+			case 75: //Left
+				if (dwarf[0].Coordinates.X - dwarfSpeed > 0)
+				{
+					direction.X = -dwarfSpeed;
+					direction.Y = 0;
+				}
+				else
+				{
+					direction.X = -dwarf[0].Coordinates.X;
+					direction.Y = 0;
+				}
+				break;
+
+			case 77: //Right
+				if (dwarf[1].Coordinates.X + dwarfSpeed < windowWidth)
+				{
+					direction.X = dwarfSpeed;
+					direction.Y = 0;
+				}
+				else
+				{
+					direction.X = windowWidth - dwarf[1].Coordinates.X - 1;
+					direction.Y = 0;
+				}
+				break;
+				case MENU_CHAR:
+				InGameMenu();
+				break;
+			}
+		}
 	}
 	if (quit)
 	{
@@ -660,12 +736,30 @@ void UpdateDwarfCOORDS()
 	enlargeY = dwarf[4].Coordinates.Y;
 }
 
+//Checks if a rock and a powerup have the same x coordinate
+void CheckForRockAndPowupIntersection(int &x)
+{
+	bool cycleRand = false;
+	do
+	{
+		x = rand() % windowWidth;
+		for (const_iterator rock = rocks.begin(); rock != rocks.end(); ++rock)
+		{
+			if (x == rock->Coordinates.X)
+			{
+				cycleRand = true;
+			}
+		}
+	} while (cycleRand);
+}
+
 // Adds new elements to powup vector
 void AddingPowupWithDifShapes()
 {
 	if (frameCounter % 50 == 0 && frameCounter != 0)
 	{
-		int x = rand() % windowWidth;
+		int x = 1;
+		CheckForRockAndPowupIntersection(x);
 		if (frameCounter % 100 == 0)
 		{
 			powups.push_back(GameObject(x, 0, powupSymbol1));
