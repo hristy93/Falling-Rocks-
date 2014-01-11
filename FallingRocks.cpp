@@ -18,6 +18,7 @@
 #define DOWN_CHAR 's'
 #define LEFT_CHAR 'a'
 #define RIGHT_CHAR 'd'
+#define FAME_CHAR 'h'
 
 
 using namespace std;
@@ -72,6 +73,7 @@ bool isShrinked = false;
 //Level variables
 int lvlCount = 1;
 int score = 0;
+int highScore = 0;
 
 //dwarf,rocks,powups vectors
 vector<GameObject> dwarf;
@@ -149,6 +151,10 @@ void Reset()
 	frameCounter = 0;
 	copyOfFrameCounter = 0;
 	rockSpawnInterval = 10;
+	if(score > highScore)
+	{
+		highScore = score;
+	}
 	score = 0;
 	dwarf.clear();
 	rocks.clear();
@@ -389,6 +395,13 @@ void PicksDwarfProperties()
 //User will return to  menu if secondary menu is called
 void ReturnToMenu();
 
+//Hall of fame result 
+void HallOfFame()
+{
+	system("CLS");
+    cout<<"Your highscore is "<<highScore<<endl;
+}
+
 //Program waits for the user to press one of the following keys
 void MainMenuKey()
 {
@@ -402,6 +415,9 @@ void MainMenuKey()
 			case NEW_GAME_CHAR:
 				PicksDwarfProperties();
 				break;
+			case FAME_CHAR:
+				 HallOfFame();
+				 break;
 			case CREDITS_CONTINUE_CHAR:
 				Credits();
 				break;
@@ -814,6 +830,8 @@ void PrintInGameMenu();
 //Return to InGAmeMenu from secondary menu
 void ReturnToInGameMenu();
 
+//Saves your game
+void SaveGame();
 int main()
 {
 	MainMenu();
@@ -874,7 +892,30 @@ void PrintInGameMenu()
 		}
 	}
 }
-
+void SaveGame()
+{
+	score = stoneCounter*15+score;
+	ofstream saveFile("Safefile1.txt");
+	saveFile<<dwarfSpeed<<endl;
+	saveFile<<lastDwarfSpeed<<endl;
+	saveFile<<dwarfShape<<endl;
+	saveFile<<lastDwarfShape<<endl;
+	saveFile<<enlargeX<<endl;
+	saveFile<<enlargeY<<endl;
+	saveFile<<stoneCounter<<endl;
+	saveFile<<sleepDuration<<endl;
+	saveFile<<isShrinked<<endl;
+	saveFile<<lvlCount<<endl;
+	saveFile<<frameCounter<<endl;
+	saveFile<<copyOfFrameCounter<<endl;
+	saveFile<<rockSpawnInterval<<endl;
+	saveFile<<score<<endl;
+    saveFile.close();
+	system("CLS");
+	cout<<"Your game has been saved"<<endl;
+	cout<<"Press q to return to menu"<<endl;
+	Sleep(1500);
+}
 void InGameMenuKey()
 {
 	while (true)
@@ -887,6 +928,12 @@ void InGameMenuKey()
 			{
 			case CREDITS_CONTINUE_CHAR:
 				start = true;
+				break;
+			case 's':
+				SaveGame();
+				break;
+			case FAME_CHAR:
+				HallOfFame();
 				break;
 			case INSTRUCTIONS_CHAR:
 				Instructions();
