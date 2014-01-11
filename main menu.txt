@@ -7,7 +7,7 @@
         
                     |     [N]ew Game        |
                     |                       | 
-                    |      Load Game        |            #
+                    |     [L]oad Game      |            #
                     |                       |
                     |      Options          |                 .
                     |                       |           #    o
@@ -62,7 +62,7 @@ marker4
         
                     |     [C]ontinue Game  |
                     |                      | 
-                    |      Save Game       |
+                    |     [S]ave Game      |
                     |                      |
                     |      Options         |
                     |                      |   
