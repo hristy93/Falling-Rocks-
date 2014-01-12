@@ -1,4 +1,3 @@
-
     	 _____     _ _ _               ____            _        
    	|  ___|_ _| | (_)_ __   __ _  |  _ \ ___   ___| | _____ 
    	| |_ / _` | | | | '_ \ / _` | | |_) / _ \ / __| |/ / __|
@@ -27,12 +26,12 @@ marker1
 
 marker2
 
-        Lead programers, level&audio desiners
-                Valeria Mincheva
-                Preslav Semov
-                Hristian Dimitrov
-                Stanimir Mitev
-
+        		Lead programers and everything else
+                		Valeria Mincheva
+                		Preslav Semov
+                		Stanimir Mitev
+                		Hristian Dimitrov
+                		
 
 
 Press [q] key to return to main menu.
