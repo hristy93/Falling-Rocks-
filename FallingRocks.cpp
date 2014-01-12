@@ -1093,6 +1093,7 @@ void AddingPowupWithDifShapes()
 	{
 		int x = 1;
 		//CheckForRockAndPowupIntersection(x);
+		x = rand() % windowWidth;
 		if (frameCounter % 100 == 0)
 		{
 			powups.push_back(GameObject(x, 0, powupSymbol1));
