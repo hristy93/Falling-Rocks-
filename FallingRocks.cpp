@@ -62,13 +62,19 @@ bool toBreak = true;
 bool toPrint = false;
 
 // Game variables
-unsigned long sleepDuration = 200;
+unsigned long sleepDuration = 150;
+int difficulty = 1;
 
 //Powups variables
 char powupSymbol1 = 'F';
 char powupSymbol2 = 'S';
 char powupSymbol;
 int  powupSpeed = 1;
+
+//Skill variables
+bool phaseShiftAvailable = false;
+bool phaseShift = false;
+unsigned int phaseShiftDuration = 0;
 
 //If the dwarf is shrinked
 bool isShrinked = false;
@@ -88,6 +94,7 @@ vector<GameObject> powups;
 
 unsigned int frameCounter = 0;
 unsigned int copyOfFrameCounter = 0;
+
 unsigned int rockSpawnInterval = 10;
 
 //Prints Character selection menu
@@ -143,15 +150,19 @@ void CharacterColorSelection()
 //Resets important global variables on starting a new game 
 void Reset()
 {
-	dwarfSpeed = 5;
-	lastDwarfSpeed = 5;
+	difficulty = 1;
+	phaseShiftDuration = 0;
+	phaseShift = false;
+	phaseShiftAvailable = false;
+	dwarfSpeed = 3;
+	lastDwarfSpeed = 3;
 	dwarfShape = 1;
 	lastDwarfShape = 1;
 	enlargeX = windowWidth / 2;
 	enlargeY = windowHeight - 2;
 	stoneCounter = 0;
 	colour = 0xF;
-	sleepDuration = 200;
+	sleepDuration = 150;
 	isShrinked = false;
 	lvlCount = 1;
 	frameCounter = 0;
@@ -405,32 +416,78 @@ void ReturnToMenu();
 void HallOfFame()
 {
 	system("CLS");
-    cout<<"Your highscore is "<<highScore<<endl;
+	cout << "Your highscore is "<<highScore<<endl;
+	cout << "Press 'q' to return to menu." << endl;
 }
+
 // Loads Save Game
 void LoadGame()
 {
-	ifstream loadFile("Safefile1.txt");
-	loadFile>>dwarfSpeed;
-	loadFile>>lastDwarfSpeed;
-    loadFile>>dwarfShape;
-	loadFile>>lastDwarfShape;
-	loadFile>>enlargeX;
-	loadFile>>enlargeY;
-	loadFile>>stoneCounter;
-	loadFile>>sleepDuration;
-	loadFile>>isShrinked;
-	loadFile>>lvlCount;
-	loadFile>>frameCounter;
-	loadFile>>copyOfFrameCounter;
-	loadFile>>rockSpawnInterval;
-	loadFile>>score;
-	loadFile>>dwarfColor;
-	lastDwarfShape=dwarfShape;
-    loadFile.close();
+	ifstream loadFile("SafeFile.txt");
+	loadFile >> dwarfSpeed;
+	loadFile >> lastDwarfSpeed;
+	loadFile >> dwarfShape;
+	loadFile >> lastDwarfShape;
+	loadFile >> enlargeX;
+	loadFile >> enlargeY;
+	loadFile >> stoneCounter;
+	loadFile >> sleepDuration;
+	loadFile >> isShrinked;
+	loadFile >> lvlCount;
+	loadFile >> frameCounter;
+	loadFile >> copyOfFrameCounter;
+	loadFile >> rockSpawnInterval;
+	loadFile >> score;
+	loadFile >> dwarfColor;
+	loadFile >> phaseShiftAvailable ;
+	loadFile >> phaseShift;
+	loadFile >> phaseShiftDuration;
+	loadFile >> difficulty;
+	loadFile.close();
 	start = true ;
 	UpdateDwarf();
 }
+
+void Options()
+{
+	char question;
+	if(!useArrowKeys)
+	{
+		system ("CLS");
+		cout<<"Whould you like to use the arrow keys for movement instead of W,A,S,D"<<endl;
+		cout<<"y/n"<<endl;
+		cin >> question;
+		if(question == 'y')
+		{
+			useArrowKeys = true;
+			cout << "You are now using the arrow keys to move" << endl;
+			cout << "Press 'q' to return to menu" << endl;
+		}
+		else
+		{
+			cout << "Press 'q' to return to menu" << endl;
+		}
+	}
+	else 
+	{
+		system ("CLS");
+		cout<<"Whould you like to use W,A,S,D for movement instead of the arrow keys"<<endl;
+		cout<<"y/n"<<endl;
+		cin >> question;
+		if(question == 'y')
+		{
+			useArrowKeys = false;
+			cout << "You are now using W,A,S,D to move" << endl;
+			cout << "Press 'q' to return to menu" << endl;
+		}
+		else
+		{
+			cout << "Press 'q' to return to menu" << endl;
+		}
+	}
+}
+
+
 //Program waits for the user to press one of the following keys
 void MainMenuKey()
 {
@@ -445,11 +502,14 @@ void MainMenuKey()
 				PicksDwarfProperties();
 				break;
 			case LOAD_CHAR:
-				 LoadGame();
-				 break;
+				LoadGame();
+				break;
+			case OPTIONS_CHAR:
+				Options();
+				break;
 			case FAME_CHAR:
-				 HallOfFame();
-				 break;
+				HallOfFame();
+				break;
 			case CREDITS_CONTINUE_CHAR:
 				Credits();
 				break;
@@ -516,11 +576,46 @@ void MainMenu()
 	}
 }
 
+
+//Abjusting the difficulty curve, levels should be approximately the same duration
+void AbjustDifficulty()
+{
+	if(lvlCount > 14 && lvlCount < 30)
+	{
+		difficulty = 2;
+	}
+	if(lvlCount > 29)
+	{
+		difficulty = 3;
+	}
+}
+
+void SetDifficulty()
+{
+	switch(difficulty)
+	{
+	case 1:
+		sleepDuration = 150;
+		break;
+	case 2:
+		sleepDuration = 100;
+		break;
+	case 3:
+		sleepDuration = 50;
+		break;
+	}
+}
+
 // Writes on the screen the level on which is the game
 void OutputOfChangeLvl()
 {
 	system("CLS");
 	cout << "Level " << lvlCount << endl;
+	if( lvlCount > 4 && lvlCount % 2 == 1 )
+	{
+		cout <<"Phase Shift is now available";
+		phaseShiftAvailable = true;
+	}
 	Sleep(2000);
 }
 
@@ -531,21 +626,22 @@ void ChangeLvl()
 	{
 		OutputOfChangeLvl();
 	}
-	if (frameCounter % 100 == 0 && frameCounter != 0)
+	if (frameCounter % ( 100 + difficulty*50 ) == 0 && frameCounter != 0)
 	{
 		lvlCount++;
 		OutputOfChangeLvl();
-		if (sleepDuration > 10)
-		{
-			sleepDuration -= 10;
-		}
-		if (rockSpawnInterval > 1)
+
+		AbjustDifficulty();
+		SetDifficulty();
+
+		if (rockSpawnInterval > 1 && lvlCount % 2 == 0)
 		{
 			rockSpawnInterval--;
 		}
-		if (dwarfSpeed > 1 && lvlCount % 5 == 0)
+		if (dwarfSpeed > 1 && lvlCount % 10 == 0)
 		{
 			dwarfSpeed--;
+			lastDwarfSpeed--;
 		}
 	}
 }
@@ -647,6 +743,17 @@ void UpdateDwarfCOORDS()
 					direction.Y = windowHeight - 1 - dwarf[2].Coordinates.Y - 1;
 				}
 				break;
+			case QUIT_CHAR:
+				if( phaseShiftAvailable && lvlCount > 4)
+				{
+					phaseShift = false;
+					phaseShift = true;
+					phaseShiftDuration = frameCounter;
+					system("CLS");
+					cout << "You are now phase shifted ";
+					Sleep(1500);
+				}
+				break;
 			case MENU_CHAR:
 				InGameMenu();
 				break;
@@ -717,7 +824,18 @@ void UpdateDwarfCOORDS()
 					direction.Y = 0;
 				}
 				break;
-				case MENU_CHAR:
+			case QUIT_CHAR:
+				if(phaseShiftAvailable && lvlCount > 4)
+				{
+					phaseShift = false;
+					phaseShift = true;
+					phaseShiftDuration = frameCounter;
+					system("CLS");
+					cout << "You are now phase shifted ";
+					Sleep(1500);
+				}
+				break;
+			case MENU_CHAR:
 				InGameMenu();
 				break;
 			}
@@ -863,9 +981,9 @@ void Collision();
 // Returns the dwarf to his previous speed or shape, after powups had expired
 void DwarfPrevStatus()
 {
-	if (frameCounter == (copyOfFrameCounter + 30))
+	if (frameCounter == (copyOfFrameCounter + ( 30 + difficulty*15 ) ) )
 	{
-		if (dwarfSpeed == 13)
+		if (dwarfSpeed == lastDwarfSpeed + 2)
 		{
 			dwarfSpeed = lastDwarfSpeed;
 		}
@@ -881,7 +999,7 @@ void DwarfPrevStatus()
 //Changes dwarfspeed
 void OutputOfFasterBonus()
 {
-	dwarfSpeed = 13;
+	dwarfSpeed +=2;
 	system("CLS");
 	cout << "Faster" << endl;
 	Sleep(2000);
@@ -954,6 +1072,18 @@ void ReturnToInGameMenu();
 
 //Saves your game
 void SaveGame();
+
+void SkillDuration()
+{
+	if(phaseShift && frameCounter == (phaseShiftDuration + ( 40 + difficulty*20 ) ) )
+	{
+		phaseShift = false;
+		system("CLS");
+		cout << "Phase Shift has expired! You better watch out for those rocks!!!" <<endl;
+		Sleep(2000);
+	}
+}
+
 int main()
 {
 	MainMenu();
@@ -971,6 +1101,7 @@ int main()
 			break;
 		}
 		Collision();
+		SkillDuration();
 		PowUpCollsion();
 		Draw();
 		Sleep(sleepDuration);
@@ -980,6 +1111,7 @@ int main()
 
 void AfterCollision()
 {
+	//if no more hitpoints
 	score = stoneCounter * 15 + score;
 	system("CLS");
 	cout << "Good Game Well Played" << endl;
@@ -987,6 +1119,8 @@ void AfterCollision()
 	Sleep(2000);
 	Reset();
 	main();
+
+	//else hitpoints--
 }
 
 void PrintInGameMenu()
@@ -1014,31 +1148,36 @@ void PrintInGameMenu()
 		}
 	}
 }
+
 void SaveGame()
 {
 	score = stoneCounter*15+score;
-	ofstream saveFile("Safefile1.txt");
-	saveFile<<dwarfSpeed<<endl;
-	saveFile<<lastDwarfSpeed<<endl;
-	saveFile<<dwarfShape<<endl;
-	saveFile<<lastDwarfShape<<endl;
-	saveFile<<enlargeX<<endl;
-	saveFile<<enlargeY<<endl;
-	saveFile<<stoneCounter<<endl;
-	saveFile<<sleepDuration<<endl;
-	saveFile<<isShrinked<<endl;
-	saveFile<<lvlCount<<endl;
-	saveFile<<frameCounter<<endl;
-	saveFile<<copyOfFrameCounter<<endl;
-	saveFile<<rockSpawnInterval<<endl;
-	saveFile<<score<<endl;
-	saveFile<<dwarfColor<<endl;
-    saveFile.close();
+	ofstream saveFile("SafeFile.txt");
+	saveFile << dwarfSpeed <<endl;
+	saveFile << lastDwarfSpeed <<endl;
+	saveFile << dwarfShape <<endl;
+	saveFile << lastDwarfShape <<endl;
+	saveFile << enlargeX <<endl;
+	saveFile << enlargeY <<endl;
+	saveFile << stoneCounter <<endl;
+	saveFile << sleepDuration <<endl;
+	saveFile << isShrinked <<endl;
+	saveFile << lvlCount <<endl;
+	saveFile << frameCounter <<endl;
+	saveFile << copyOfFrameCounter <<endl;
+	saveFile << rockSpawnInterval <<endl;
+	saveFile << score <<endl;
+	saveFile << dwarfColor <<endl;
+	saveFile << phaseShiftAvailable <<endl;
+	saveFile << phaseShift <<endl;
+	saveFile << phaseShiftDuration <<endl;
+	saveFile << difficulty <<endl;
+	saveFile.close();
 	system("CLS");
 	cout<<"Your game has been saved"<<endl;
 	cout<<"Press q to return to menu"<<endl;
-	Sleep(1500);
 }
+
 void InGameMenuKey()
 {
 	while (true)
@@ -1054,6 +1193,9 @@ void InGameMenuKey()
 				break;
 			case SAVE_CHAR:
 				SaveGame();
+				break;
+			case OPTIONS_CHAR:
+				Options();
 				break;
 			case FAME_CHAR:
 				HallOfFame();
@@ -1109,7 +1251,11 @@ void Collision()
 			int testRockY = rock->Coordinates.Y;
 			if (testDwarfX == testRockX && testDwarfY == testRockY)
 			{
-				AfterCollision();
+				//delete rock if hitpoints are included
+				if(!phaseShift)
+				{
+					AfterCollision();
+				}
 				if (quit)
 				{
 					return;
