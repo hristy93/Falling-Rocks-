@@ -22,6 +22,7 @@
 #define SAVE_CHAR 's'
 #define LOAD_CHAR 'l'
 #define OPTIONS_CHAR 'o'
+#define ANDROMEDA_CHAR 'e'
 
 
 using namespace std;
@@ -75,6 +76,8 @@ int  powupSpeed = 1;
 bool phaseShiftAvailable = false;
 bool phaseShift = false;
 unsigned int phaseShiftDuration = 0;
+bool andromedaSkillOn = false;
+int lastUsedAndroSkill = 0 ; 
 
 //If the dwarf is shrinked
 bool isShrinked = false;
@@ -94,7 +97,6 @@ vector<GameObject> powups;
 
 unsigned int frameCounter = 0;
 unsigned int copyOfFrameCounter = 0;
-
 unsigned int rockSpawnInterval = 10;
 
 //Prints Character selection menu
@@ -168,6 +170,8 @@ void Reset()
 	frameCounter = 0;
 	copyOfFrameCounter = 0;
 	rockSpawnInterval = 10;
+	andromedaSkillOn = false;
+        lastUsedAndroSkill = 0 ; 
 	if(score > highScore)
 	{
 		highScore = score;
@@ -606,11 +610,22 @@ void SetDifficulty()
 	}
 }
 
+// Show that Andromeda skill is ready to be used
+   void OutPutofAndromedaSkill()
+{
+		if( lvlCount > 9 && lvlCount == lastUsedAndroSkill + 2)
+	{
+		cout << "AndromedaSkill is On. Press 'e' or 'x' to use"<<endl;
+		andromedaSkillOn = true;
+	}
+}
+
 // Writes on the screen the level on which is the game
 void OutputOfChangeLvl()
 {
 	system("CLS");
 	cout << "Level " << lvlCount << endl;
+	OutPutofAndromedaSkill();
 	if( lvlCount > 4 && lvlCount % 2 == 1 )
 	{
 		cout <<"Phase Shift is now available";
@@ -683,6 +698,20 @@ void CreatingRocks()
 //InGameMenu manipulation
 void InGameMenu();
 
+// Creates the Andromeda skill effect . If the level is above 10 and if the skill is availiable
+void AndromedaSkill()
+{    
+	if( lvlCount > 9 && andromedaSkillOn)
+			{
+			lastUsedAndroSkill = lvlCount;
+			system("CLS");
+			cout << "Boom"<<endl;
+			Sleep(500);
+			rocks.clear();
+			andromedaSkillOn = false ;
+			}
+}
+
 //Regulates dwarf movement+shows menu, updates dwarf position
 void UpdateDwarfCOORDS()
 {
@@ -754,6 +783,9 @@ void UpdateDwarfCOORDS()
 					Sleep(1500);
 				}
 				break;
+			case ANDROMEDA_CHAR:
+			        AndromedaSkill();
+			        break;
 			case MENU_CHAR:
 				InGameMenu();
 				break;
