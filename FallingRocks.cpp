@@ -23,6 +23,8 @@
 #define LOAD_CHAR 'l'
 #define OPTIONS_CHAR 'o'
 #define ANDROMEDA_CHAR 'e'
+#define PhaseShift_CHAR2 'z'
+#define ANDROMEDA_CHAR2 'x'
 
 
 using namespace std;
@@ -328,9 +330,9 @@ void Credits()
 	}
 }
 
-//Prints the instructions menu
-void Instructions()
-{
+//Prints the instructions menu if set1 has been chosen from options
+void InstructionsOne()
+{ 
 	string line;
 	ifstream myfile("main menu.txt");
 	system("CLS");
@@ -350,6 +352,44 @@ void Instructions()
 		{
 			toPrint = true;
 		}
+	}
+}
+
+//Prints the instructions menu if set2 has been chosen from options
+void InstructionsTwo()
+{
+	string line;
+	ifstream myfile("main menu.txt");
+	system("CLS");
+	myfile.seekg(ios::beg);
+	while (getline(myfile, line))
+	{
+		if (line == "marker9")
+		{
+			toPrint = false;
+			break;
+		}
+		if (toPrint)
+		{
+			cout << line << endl;
+		}
+		if (line == "marker8")
+		{
+			toPrint = true;
+		}
+	}
+}
+
+//Prints the correct instructions menu
+void Instructions()
+{
+	if(!useArrowKeys)
+	{
+		InstructionsOne();
+	}
+	else
+	{
+		InstructionsTwo();
 	}
 }
 
@@ -452,42 +492,76 @@ void LoadGame()
 	UpdateDwarf();
 }
 
+//Prints the options menu from the text file
+void PrintOptionsMenu()
+{
+	string line;
+	ifstream myfile("main menu.txt");
+	system("CLS");
+	myfile.seekg(ios::beg);
+	while (getline(myfile, line))
+	{
+		if (line == "marker8")
+		{
+			toPrint = false;
+			break;
+		}
+		if (toPrint)
+		{
+			cout << line << endl;
+		}
+		if (line == "marker7")
+		{
+			toPrint = true;
+		}
+	}
+}
+
+//Waits for the correct key to be pressed in order to choose a set of controls
+void OptionsMenuKey()
+{
+	while (true)
+	{
+		if (_kbhit())
+		{
+			char mainMenuKey = _getch();
+			switch (mainMenuKey)
+			{
+			case 's':
+				useArrowKeys = false;
+				break;
+			case 't':
+				useArrowKeys = true;
+				break;
+			default:
+				toBreak = false;
+			}
+			if (toBreak)
+			{
+				break;
+			}
+			else
+			{
+				toBreak = true;
+			}
+		}
+	}
+}
+
+//Details
 void Options()
 {
-	char question;
+	PrintOptionsMenu();
+	OptionsMenuKey();
 	if(!useArrowKeys)
 	{
-		system ("CLS");
-		cout<<"Whould you like to use the arrow keys for movement instead of W,A,S,D"<<endl;
-		cout<<"y/n"<<endl;
-		cin >> question;
-		if(question == 'y')
-		{
-			useArrowKeys = true;
-			cout << "You are now using the arrow keys to move" << endl;
-			cout << "Press 'q' to return to menu" << endl;
-		}
-		else
-		{
-			cout << "Press 'q' to return to menu" << endl;
-		}
+		cout << "You have chosen SET1" << endl;
+		cout << "Press 'q' to return to menu" <<endl;
 	}
 	else 
 	{
-		system ("CLS");
-		cout<<"Whould you like to use W,A,S,D for movement instead of the arrow keys"<<endl;
-		cout<<"y/n"<<endl;
-		cin >> question;
-		if(question == 'y')
-		{
-			useArrowKeys = false;
-			cout << "You are now using W,A,S,D to move" << endl;
-			cout << "Press 'q' to return to menu" << endl;
-		}
-		else
-		{
-			cout << "Press 'q' to return to menu" << endl;
-		}
+		cout << "You have chosen SET2" << endl;
+		cout << "Press 'q' to return to menu" <<endl;
 	}
 }
 
@@ -537,7 +611,6 @@ void MainMenuKey()
 		}
 	}
 }
-
 // Prints the MainMenu from "main menu.text". Markers serve as CheckPionts in the text file
 void PrintMainMenu()
 {
@@ -581,14 +654,14 @@ void MainMenu()
 }
 
 
-//Abjusting the difficulty curve, levels should be approximately the same duration
-void AbjustDifficulty()
+//Adjusting the difficulty curve
+void AdjustDifficulty()
 {
-	if(lvlCount > 14 && lvlCount < 30)
+	if(lvlCount > 7 && lvlCount < 15)
 	{
 		difficulty = 2;
 	}
-	if(lvlCount > 29)
+	if(lvlCount > 14)
 	{
 		difficulty = 3;
 	}
@@ -646,7 +719,7 @@ void ChangeLvl()
 		lvlCount++;
 		OutputOfChangeLvl();
 
-		AbjustDifficulty();
+		AdjustDifficulty();
 		SetDifficulty();
 
 		if (rockSpawnInterval > 1 && lvlCount % 2 == 0)
@@ -775,7 +848,7 @@ void UpdateDwarfCOORDS()
 			case QUIT_CHAR:
 				if( phaseShiftAvailable && lvlCount > 4)
 				{
-					phaseShift = false;
+					phaseShiftAvailable = false;
 					phaseShift = true;
 					phaseShiftDuration = frameCounter;
 					system("CLS");
@@ -856,10 +929,10 @@ void UpdateDwarfCOORDS()
 					direction.Y = 0;
 				}
 				break;
-			case QUIT_CHAR:
+			case PhaseShift_CHAR2:
 				if(phaseShiftAvailable && lvlCount > 4)
 				{
-					phaseShift = false;
+					phaseShiftAvailable = false;
 					phaseShift = true;
 					phaseShiftDuration = frameCounter;
 					system("CLS");
@@ -867,6 +940,9 @@ void UpdateDwarfCOORDS()
 					Sleep(1500);
 				}
 				break;
+			case ANDROMEDA_CHAR2:
+			        AndromedaSkill();
+			        break;
 			case MENU_CHAR:
 				InGameMenu();
 				break;
