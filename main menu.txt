@@ -1,3 +1,4 @@
+
     _____     _ _ _               ____            _        
    |  ___|_ _| | (_)_ __   __ _  |  _ \ ___   ___| | _____ 
    | |_ / _` | | | | '_ \ / _` | | |_) / _ \ / __| |/ / __|
@@ -7,9 +8,9 @@
         
                     |     [N]ew Game        |
                     |                       | 
-                    |     [L]oad Game      |            #
+                    |     [L]oad Game       |            #
                     |                       |
-                    |      Options          |                 .
+                    |     [O]ptions         |                 .
                     |                       |           #    o
                     |     [H]all Of Fame    |               o
                     |                       |          #   0
@@ -64,7 +65,7 @@ marker4
                     |                      | 
                     |     [S]ave Game      |
                     |                      |
-                    |      Options         |
+                    |     [O]ptions        |
                     |                      |   
                     |     [H]all Of Fame   |    
                     |                      |     
