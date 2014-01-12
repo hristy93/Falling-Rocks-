@@ -25,6 +25,8 @@
 #define ANDROMEDA_CHAR 'e'
 #define PhaseShift_CHAR2 'z'
 #define ANDROMEDA_CHAR2 'x'
+#define FIRE_CHAR 'f'
+#define FIRE_CHAR2 'c'
 
 
 using namespace std;
@@ -79,7 +81,11 @@ bool phaseShiftAvailable = false;
 bool phaseShift = false;
 unsigned int phaseShiftDuration = 0;
 bool andromedaSkillOn = false;
-int lastUsedAndroSkill = 0 ; 
+int lastUsedAndroSkill = 0; 
+bool fire = false;
+int lastUsedFireSkill = 0;
+unsigned int fireDuration = 0;
+bool fireAvailable = false;
 
 //If the dwarf is shrinked
 bool isShrinked = false;
@@ -96,6 +102,7 @@ int highScore = 0;
 vector<GameObject> dwarf;
 vector<GameObject> rocks;
 vector<GameObject> powups;
+vector<GameObject> missiles;
 
 unsigned int frameCounter = 0;
 unsigned int copyOfFrameCounter = 0;
@@ -174,6 +181,10 @@ void Reset()
 	rockSpawnInterval = 10;
 	andromedaSkillOn = false;
         lastUsedAndroSkill = 0 ; 
+        fire = false;
+        lastUsedFireSkill = 0 ;
+        fireDuration = 0 ;
+        fireAvailable = false ; 
 	if(score > highScore)
 	{
 		highScore = score;
@@ -182,6 +193,7 @@ void Reset()
 	dwarf.clear();
 	rocks.clear();
 	powups.clear();
+	missiles.clear();
 }
 
 //Paints the dwarf in the chosen color
@@ -201,6 +213,66 @@ void ChangeColor()
 		case 8: dwarfBody->Color = White; break;
 		}
 	}
+}
+// Adding misiless
+void MissileMovement()
+{
+	for (randomAccess_iterator missile = missiles.begin(); missile != missiles.end(); )
+	{
+		missile->Coordinates.Y -= powupSpeed;
+		if (missile->Coordinates.Y < 0 )
+		{
+			missile= missiles.erase(missile);
+		}
+		else
+		{
+			++missile;
+		}
+	}
+}
+
+// Missile form
+void MissileForm()
+{
+	if(fire)
+	{
+	    int x = dwarf[3].Coordinates.X ;
+	    int y = dwarf[3].Coordinates.Y - 1;
+	    missiles.push_back(GameObject(x,y,'!'));
+	}
+}
+
+// Check if the missile had hit a rock
+void MissileCollision()
+{   
+int x = rocks.size();
+for (const_iterator rock = rocks.cbegin(); rock != rocks.cend(); ++rock)
+	{
+	        int testRockX = rock->Coordinates.X;
+			int testRockY = rock->Coordinates.Y;
+		for (const_iterator missile = missiles.begin(); missile != missiles.end(); ++missile)
+		{
+			int testMissileX = missile->Coordinates.X;
+		    int testMissileY = missile->Coordinates.Y;
+			if (testMissileX == testRockX && testMissileY == testRockY)
+			{
+				if (!rocks.empty())
+				{
+					rocks.erase(rock);
+					break;
+				}
+				missiles.erase(missile);
+  				if (quit)
+				{
+					return;
+				}
+			}
+	    }
+		if(rocks.size()==x-1)
+		{
+			break;
+		}
+    }
 }
 
 // Builds/Rebuilds dwarf shape
@@ -487,6 +559,10 @@ void LoadGame()
 	loadFile >> phaseShift;
 	loadFile >> phaseShiftDuration;
 	loadFile >> difficulty;
+	loadFile>>fire ;
+        loadFile>>lastUsedFireSkill;
+        loadFile>>fireDuration;
+        loadFile>>fireAvailable;
 	loadFile.close();
 	start = true ;
 	UpdateDwarf();
@@ -692,18 +768,31 @@ void SetDifficulty()
 		andromedaSkillOn = true;
 	}
 }
-
+// Show that Fire skill is ready to be used
+void OutPutofFireSkill()
+{
+		if( lvlCount > 1 && lvlCount ==( lastUsedFireSkill + 2))
+	{
+        cout<<"Fire is available press 'f' to use" << endl;
+		fireAvailable = true ;
+	}
+}
+OutPutofPhaseShiftSkill()
+{
+	if( lvlCount > 4 && lvlCount % 2 == 1 )
+	{
+		cout <<"Phase Shift is now available";
+		phaseShiftAvailable = true;
+	}
+}
 // Writes on the screen the level on which is the game
 void OutputOfChangeLvl()
 {
 	system("CLS");
 	cout << "Level " << lvlCount << endl;
 	OutPutofAndromedaSkill();
-	if( lvlCount > 4 && lvlCount % 2 == 1 )
-	{
-		cout <<"Phase Shift is now available";
-		phaseShiftAvailable = true;
-	}
+	OutPuttofFireSkill();
+        OutPutofPhaseShiftSkill();
 	Sleep(2000);
 }
 
@@ -785,6 +874,18 @@ void AndromedaSkill()
 			}
 }
 
+// When the FIRE_CHAR is clicked
+void OnFireClick()
+{
+	 if(lvlCount > 6 && !fire && fireAvailable )
+	{
+	  fire = true ;
+	  lastUsedFireSkill = lvlCount ; 
+	  fireDuration = frameCounter;
+	  fireAvailable = false ; 
+	 }
+}
+
 //Regulates dwarf movement+shows menu, updates dwarf position
 void UpdateDwarfCOORDS()
 {
@@ -859,6 +960,9 @@ void UpdateDwarfCOORDS()
 			case ANDROMEDA_CHAR:
 			        AndromedaSkill();
 			        break;
+		        case FIRE_CHAR:
+			       OnFireClick();
+			       break;
 			case MENU_CHAR:
 				InGameMenu();
 				break;
@@ -943,6 +1047,9 @@ void UpdateDwarfCOORDS()
 			case ANDROMEDA_CHAR2:
 			        AndromedaSkill();
 			        break;
+			case FIRE_CHAR2:
+			       OnFireClick();
+			       break;
 			case MENU_CHAR:
 				InGameMenu();
 				break;
@@ -1039,6 +1146,15 @@ void RocksShapeAndColor()
 	}
 }
 
+//Checks if the Fire Skill has expired
+void FireDuration()
+{
+	if(fire && frameCounter ==(fireDuration + 50 ))
+	{
+		fire = false ;
+	}
+}
+
 //Updates everything
 void Update()
 {
@@ -1052,6 +1168,10 @@ void Update()
 	CreatingPowups();
 	AddingPowupWithDifShapes();
 
+        MissileMovement();
+	MissileForm();
+        FireDuration();
+	
 	if (quit)
 	{
 		return;
@@ -1077,7 +1197,10 @@ void Draw()
 	{
 		powup->Draw(consoleHandle);
 	}
-
+		for (const_iterator missile = missiles.begin(); missile != missiles.end(); ++missile)
+	{
+		missile->Draw(consoleHandle);
+	}
 }
 
 //After a rock hits you
@@ -1280,6 +1403,10 @@ void SaveGame()
 	saveFile << phaseShift <<endl;
 	saveFile << phaseShiftDuration <<endl;
 	saveFile << difficulty <<endl;
+        saveFile<<fire<<endl;
+        saveFile<<lastUsedFireSkill<<endl;
+        saveFile<<fireDuration<<endl;
+        saveFile<<fireAvailable<<endl; 
 	saveFile.close();
 	system("CLS");
 	cout<<"Your game has been saved"<<endl;
