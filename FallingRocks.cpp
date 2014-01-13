@@ -559,6 +559,8 @@ void LoadGame()
 	loadFile >> phaseShift;
 	loadFile >> phaseShiftDuration;
 	loadFile >> difficulty;
+	loadFile >> andromedaSkillOn;
+        loadFile >> lastUsedAndroSkill; 
 	loadFile>>fire ;
         loadFile>>lastUsedFireSkill;
         loadFile>>fireDuration;
@@ -777,7 +779,7 @@ void OutPutofFireSkill()
 		fireAvailable = true ;
 	}
 }
-OutPutofPhaseShiftSkill()
+void OutPutofPhaseShiftSkill()
 {
 	if( lvlCount > 4 && lvlCount % 2 == 1 )
 	{
@@ -791,7 +793,7 @@ void OutputOfChangeLvl()
 	system("CLS");
 	cout << "Level " << lvlCount << endl;
 	OutPutofAndromedaSkill();
-	OutPuttofFireSkill();
+	 OutPutofFireSkill();
         OutPutofPhaseShiftSkill();
 	Sleep(2000);
 }
@@ -1404,6 +1406,8 @@ void SaveGame()
 	saveFile << phaseShift <<endl;
 	saveFile << phaseShiftDuration <<endl;
 	saveFile << difficulty <<endl;
+        saveFile << andromedaSkillOn;
+        saveFile << lastUsedAndroSkill<< endl; 
         saveFile<<fire<<endl;
         saveFile<<lastUsedFireSkill<<endl;
         saveFile<<fireDuration<<endl;
