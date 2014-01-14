@@ -9,7 +9,7 @@ Falling Rocks Tasks
  - start a game
  - see instructions about the game
  - show the highest score the player has achieved in this session
- - [BONUS]change settings (controls, graphics, audio  тази задача е за после
+ - [BONUS]change settings (controls, graphics, audio Done
  - exit the game
 p.s. the menu shall be the first thing a player sees and the player MUST have the option to return to the main menu at
 ANYTIME.
@@ -21,10 +21,10 @@ ANYTIME.
  - decreasing the interval during which they spawn
  - slowing down the player
 9. [BONUS]Implement an RPG-like skill system - have the dwarf gain abilities like:
- - moving trough rocks
- - gaining speed
- - the ability to shoot down rocks
-10.[BONUS]Implement an Audio system using either cout << '\a'; or the Windows function Beep (google it)
+ - moving trough rocks Done
+ - cleaning the screen of rocks Done
+ - the ability to shoot down rocks Done
+10.[BONUS]Implement an Audio system using either cout << '\a'; or the Windows function Beep (google it) Done it better
 11.[BONUS]Implement save / load functionality. Use file streams (google them) Stan & Presko DONE
 
 
