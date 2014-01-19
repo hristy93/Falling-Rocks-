@@ -1,0 +1,26 @@
+﻿Build started 19.1.2014 г. 21:36:36.
+     1>Project "D:\Icho\Documents\Visual Studio 2013\Projects\FallingRocks - Final\FallingRocks - Final\FallingRocks - Final.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt FallingRocks.cpp
+         FallingRocks.cpp
+     1>d:\icho\documents\visual studio 2013\projects\fallingrocks - final\fallingrocks - final\fallingrocks.cpp(304): warning C4305: 'initializing' : truncation from 'int' to 'char'
+     1>d:\icho\documents\visual studio 2013\projects\fallingrocks - final\fallingrocks - final\fallingrocks.cpp(304): warning C4309: 'initializing' : truncation of constant value
+     1>d:\icho\documents\visual studio 2013\projects\fallingrocks - final\fallingrocks - final\fallingrocks.cpp(489): warning C4551: function call missing argument list
+     1>d:\icho\documents\visual studio 2013\projects\fallingrocks - final\fallingrocks - final\fallingrocks.cpp(512): warning C4551: function call missing argument list
+     1>d:\icho\documents\visual studio 2013\projects\fallingrocks - final\fallingrocks - final\fallingrocks.cpp(1135): warning C4309: 'static_cast' : truncation of constant value
+     1>d:\icho\documents\visual studio 2013\projects\fallingrocks - final\fallingrocks - final\fallingrocks.cpp(1136): warning C4309: 'static_cast' : truncation of constant value
+     1>d:\icho\documents\visual studio 2013\projects\fallingrocks - final\fallingrocks - final\fallingrocks.cpp(1137): warning C4309: 'static_cast' : truncation of constant value
+     1>d:\icho\documents\visual studio 2013\projects\fallingrocks - final\fallingrocks - final\fallingrocks.cpp(1138): warning C4309: 'static_cast' : truncation of constant value
+     1>d:\icho\documents\visual studio 2013\projects\fallingrocks - final\fallingrocks - final\fallingrocks.cpp(1139): warning C4309: 'static_cast' : truncation of constant value
+     1>d:\icho\documents\visual studio 2013\projects\fallingrocks - final\fallingrocks - final\fallingrocks.cpp(1140): warning C4309: 'static_cast' : truncation of constant value
+     1>d:\icho\documents\visual studio 2013\projects\fallingrocks - final\fallingrocks - final\fallingrocks.cpp(1141): warning C4309: 'static_cast' : truncation of constant value
+     1>d:\icho\documents\visual studio 2013\projects\fallingrocks - final\fallingrocks - final\fallingrocks.cpp(1325): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Icho\Documents\Visual Studio 2013\Projects\FallingRocks - Final\Debug\FallingRocks - Final.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib winmm.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Icho\Documents\Visual Studio 2013\Projects\FallingRocks - Final\Debug\FallingRocks - Final.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Icho\Documents\Visual Studio 2013\Projects\FallingRocks - Final\Debug\FallingRocks - Final.lib" /MACHINE:X86 Debug\ConsoleGaming.obj
+         Debug\FallingRocks.obj
+         FallingRocks - Final.vcxproj -> D:\Icho\Documents\Visual Studio 2013\Projects\FallingRocks - Final\Debug\FallingRocks - Final.exe
+     1>Done Building Project "D:\Icho\Documents\Visual Studio 2013\Projects\FallingRocks - Final\FallingRocks - Final\FallingRocks - Final.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.48

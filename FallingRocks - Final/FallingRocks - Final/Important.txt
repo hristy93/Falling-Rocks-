@@ -1,0 +1,1 @@
+for Visual Studio :must add winmm.lib; to in Project Properties->Linker->Input->Additional Dependencies
