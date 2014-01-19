@@ -1243,7 +1243,7 @@ void OutputOfFasterBonus()
 {
 	dwarfSpeed += 2;
 	system("CLS");
-	cout << "Faster" << endl;
+	cout << "You are now moving faster, but just for a few seconds !" << endl;
 	Sleep(2000);
 }
 
@@ -1252,7 +1252,7 @@ void OutputOfShrinkBonus()
 {
 	isShrinked = true;
 	system("CLS");
-	cout << "Shrink" << endl;
+	cout << "You are now shrinked, but just for a few seconds !" << endl;
 	Sleep(2000);
 	dwarf.clear();
 	UpdateDwarf();
