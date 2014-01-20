@@ -1,0 +1,30 @@
+﻿Build started 21.1.2014 г. 0:53:38.
+     1>Project "c:\Users\Presko\documents\visual studio 2012\Projects\FallingRocksFinal\FallingRocksFinal\FallingRocksFinal.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Bonuses.cpp Skills.cpp UpdateDwarf.cpp Variables.cpp
+         Variables.cpp
+         UpdateDwarf.cpp
+     1>c:\users\presko\documents\visual studio 2012\projects\fallingrocksfinal\fallingrocksfinal\updatedwarf.cpp(235): warning C4305: 'initializing' : truncation from 'int' to 'char'
+     1>c:\users\presko\documents\visual studio 2012\projects\fallingrocksfinal\fallingrocksfinal\updatedwarf.cpp(235): warning C4309: 'initializing' : truncation of constant value
+         Skills.cpp
+         Bonuses.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"c:\users\presko\documents\visual studio 2012\Projects\FallingRocksFinal\Debug\FallingRocksFinal.exe" /INCREMENTAL /NOLOGO winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"c:\users\presko\documents\visual studio 2012\Projects\FallingRocksFinal\Debug\FallingRocksFinal.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"c:\users\presko\documents\visual studio 2012\Projects\FallingRocksFinal\Debug\FallingRocksFinal.lib" /MACHINE:X86 Debug\Bonuses.obj
+         Debug\Collision.obj
+         Debug\ConsoleGaming.obj
+         Debug\FallingRocks.obj
+         Debug\Level.obj
+         Debug\Menus.obj
+         Debug\Missiles.obj
+         Debug\Powups.obj
+         Debug\Rocks.obj
+         Debug\Skills.obj
+         Debug\UpdateDwarf.obj
+         Debug\Variables.obj
+         FallingRocksFinal.vcxproj -> c:\users\presko\documents\visual studio 2012\Projects\FallingRocksFinal\Debug\FallingRocksFinal.exe
+     1>Done Building Project "c:\Users\Presko\documents\visual studio 2012\Projects\FallingRocksFinal\FallingRocksFinal\FallingRocksFinal.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.81
