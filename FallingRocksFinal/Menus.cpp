@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -460,8 +459,8 @@ void ReturnToMenu()
 
 void InGameMenu()
 {
-	PlaySound(TEXT("secret.wav"), NULL, SND_FILENAME | SND_ASYNC);
-	while (true)
+	PlaySound(TEXT("secret.wav"), NULL, SND_FILENAME | SND_ASYNC);////If doesn't work your go to the project 
+ 	while (true)////properties->linker->input->additional deppendencies-> and add winmm.lib
 	{
 		PrintInGameMenu();
 		InGameMenuKey();
