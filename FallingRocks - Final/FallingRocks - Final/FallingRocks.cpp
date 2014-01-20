@@ -69,6 +69,8 @@ bool toPrint = false;
 // Game variables
 unsigned long sleepDuration = 150;
 int difficulty = 1;
+bool diceRolled = false;
+int chance = 60;
 
 //Powups variables
 char powupSymbol1 = 'F';
@@ -163,6 +165,7 @@ void CharacterColorSelection()
 //Resets important global variables on starting a new game 
 void Reset()
 {
+	chance = 60;
 	difficulty = 1;
 	phaseShiftDuration = 0;
 	phaseShift = false;
@@ -559,6 +562,7 @@ void HallOfFame()
 void LoadGame()
 {
 	ifstream loadFile("SafeFile.txt");
+	loadFile >> chance;
 	loadFile >> fastBonusDurtion;
 	loadFile >> dwarfSpeed;
 	loadFile >> lastDwarfSpeed;
@@ -818,6 +822,18 @@ void OutputOfChangeLevel()
 	Sleep(2000);
 }
 
+void CalculateChanceForRockToSpawn()
+{
+	if ( levelCount < 21 && levelCount % 2 == 0 )
+	{
+		chance -=6;
+	}
+	if ( levelCount > 20 && chance < 100 )
+	{
+		chance += 3;
+	}
+}
+
 // Change Level
 void ChangeLevel()
 {
@@ -832,6 +848,7 @@ void ChangeLevel()
 
 		AdjustDifficulty();
 		SetDifficulty();
+		CalculateChanceForRockToSpawn();
 
 		if (rockSpawnInterval > 1 && levelCount % 2 == 0)
 		{
@@ -1165,6 +1182,16 @@ void RocksShapeAndColor()
 			case 6: rock->Color = Cyan; break;
 		}
 		colour = rock->Color;
+
+		if ( !diceRolled )
+		{
+			diceRolled = true;
+			int chanceToSpawnRock = rand() % 100;
+			if ( chanceToSpawnRock < chance )
+			{
+				RocksShapeAndColor();
+			}
+		}
 	}
 }
 
@@ -1185,6 +1212,7 @@ void Update()
 
 	CreatingRocks();
 	RocksShapeAndColor();
+	diceRolled = false;
 
 	CreatingPowups();
 	AddingPowupWithDifShapes();
@@ -1392,6 +1420,7 @@ void SaveGame()
 {
 	score = stoneCounter * 15 + score;
 	ofstream saveFile("SafeFile.txt");
+	saveFile << chance << endl;
 	saveFile << fastBonusDurtion << endl;
 	saveFile << dwarfSpeed << endl;
 	saveFile << lastDwarfSpeed << endl;
