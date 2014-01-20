@@ -1,0 +1,27 @@
+#pragma once
+
+void HallOfFame();
+void Credits();
+void InstructionsOne();
+void InstructionsTwo();
+void Instructions();
+void KeyToChooseModel();
+void KeyToChooseColor();
+void PicksDwarfProperties();
+void ReturnToMenu();
+void LoadGame();
+void PrintOptionsMenu();
+void OptionsMenuKey();
+void Options();
+void MainMenuKey();
+void PrintMainMenu();
+void InGameMenuKey();
+void InGameMenu();
+void PrintInGameMenu();
+void ReturnToInGameMenu();
+void CharacterSelection();
+void CharacterColorSelection();
+void Reset();
+void SaveGame();
+void Options();
+void LoadGame();
