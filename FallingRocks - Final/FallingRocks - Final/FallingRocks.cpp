@@ -559,6 +559,7 @@ void HallOfFame()
 void LoadGame()
 {
 	ifstream loadFile("SafeFile.txt");
+	loadFile >> fastBonusDurtion;
 	loadFile >> dwarfSpeed;
 	loadFile >> lastDwarfSpeed;
 	loadFile >> dwarfShape;
@@ -1391,6 +1392,7 @@ void SaveGame()
 {
 	score = stoneCounter * 15 + score;
 	ofstream saveFile("SafeFile.txt");
+	saveFile << fastBonusDurtion << endl;
 	saveFile << dwarfSpeed << endl;
 	saveFile << lastDwarfSpeed << endl;
 	saveFile << dwarfShape << endl;
