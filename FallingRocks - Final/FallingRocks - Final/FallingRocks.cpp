@@ -75,6 +75,8 @@ char powupSymbol1 = 'F';
 char powupSymbol2 = 'S';
 char powupSymbol;
 int  powupSpeed = 1;
+int fastBonusDurtion = 0;
+
 
 //Skill variables
 bool phaseShiftAvailable = false;
@@ -185,6 +187,7 @@ void Reset()
 	lastUsedFireSkill = 5;
 	fireDuration = 0;
 	fireAvailable = false;
+	fastBonusDurtion = 0;
 	if (score > highScore)
 	{
 		highScore = score;
@@ -1194,6 +1197,10 @@ void Update()
 		return;
 	}
 	ChangeLevel();
+	if (fastBonusDurtion != 0)
+	{
+		fastBonusDurtion--;
+	}
 	frameCounter++;
 }
 
@@ -1225,7 +1232,7 @@ void DwarfPrevStatus()
 {
 	if (frameCounter == (copyOfFrameCounter + (30 + difficulty * 15)))
 	{
-		if (dwarfSpeed == lastDwarfSpeed + 2)
+		if (fastBonusDurtion == 0)
 		{
 			dwarfSpeed = lastDwarfSpeed;
 		}
@@ -1242,6 +1249,7 @@ void DwarfPrevStatus()
 void OutputOfFasterBonus()
 {
 	dwarfSpeed += 2;
+	fastBonusDurtion = ( 30 + difficulty*15 ) ;
 	system("CLS");
 	cout << "You are now moving faster, but just for a few seconds !" << endl;
 	Sleep(2000);
