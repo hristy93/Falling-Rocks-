@@ -44,8 +44,8 @@ void PicksDwarfProperties()
 //MainMenu  manipulation
 void MainMenu()
 {
-	PlaySound(TEXT("secret.wav"), NULL, SND_FILENAME|SND_ASYNC);
-	start = false;
+	PlaySound(TEXT("secret.wav"), NULL, SND_FILENAME|SND_ASYNC);//If doesn't work your go to the project 
+        start = false;//properties->linker->input->additional deppendencies-> and add winmm.lib
 	quit = false;
 	while (true)
 	{
